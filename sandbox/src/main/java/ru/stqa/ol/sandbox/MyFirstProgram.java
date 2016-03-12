@@ -10,8 +10,8 @@ public class MyFirstProgram {
     Rectangle r = new Rectangle(4.0, 6.0);
     System.out.println("Square of " + r.a + " and " + r.b + " = " + r.area());
 
-    Point p1 = new Point(1, 1);
-    Point p2 = new Point(2, 2);
+    Point p1 = new Point(-1, -1);
+    Point p2 = new Point(0, 0);
 
     System.out.println("Distance between " + p1.x + " " + p1.y + " and " + p2.x + " " + p2.y + " = " + distance(p1, p2));
   }
