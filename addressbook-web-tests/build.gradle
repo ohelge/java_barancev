@@ -1,10 +1,10 @@
 apply plugin: 'java'
-apply plugin: 'application'
-mainClassName = 'ru.stqa.ol.sandbox.MyFirstProgram'
 
 repositories {
     mavenCentral();
 }
 dependencies {
     compile 'org.testng:testng:6.9.13.6'
+    compile 'org.seleniumhq.selenium:selenium-java:3.0.1'
+
 }
