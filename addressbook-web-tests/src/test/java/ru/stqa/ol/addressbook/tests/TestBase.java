@@ -1,7 +1,8 @@
-package ru.stqa.ol.addressbook;
+package ru.stqa.ol.addressbook.tests;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import ru.stqa.ol.addressbook.appmanager.ApplicationManager;
 
 /**
  * Created by OL on 2016-11-02.

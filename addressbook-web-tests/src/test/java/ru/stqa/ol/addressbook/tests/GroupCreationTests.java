@@ -1,6 +1,7 @@
-package ru.stqa.ol.addressbook;
+package ru.stqa.ol.addressbook.tests;
 
 import org.testng.annotations.Test;
+import ru.stqa.ol.addressbook.model.GroupData;
 
 public class GroupCreationTests extends TestBase{
 
@@ -10,7 +11,7 @@ public class GroupCreationTests extends TestBase{
     app.initGroupCreation();
     app.fillGroupForm(new GroupData("Group2", "Group2 header", "Group2 footer"));
     app.submitGroupCreation();
-    app.returtToGroupPage();
+    app.returnToGroupPage();
   }
 
 }

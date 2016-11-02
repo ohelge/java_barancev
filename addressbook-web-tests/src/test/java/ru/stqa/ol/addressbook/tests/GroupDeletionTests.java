@@ -1,4 +1,4 @@
-package ru.stqa.ol.addressbook;
+package ru.stqa.ol.addressbook.tests;
 
 import org.testng.annotations.Test;
 
@@ -11,7 +11,7 @@ public class GroupDeletionTests extends TestBase{
         app.selectGroup();
         // try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
         app.deleteSelectedGroups();
-        app.returtToGroupPage();
+        app.returnToGroupPage();
     }
 
 

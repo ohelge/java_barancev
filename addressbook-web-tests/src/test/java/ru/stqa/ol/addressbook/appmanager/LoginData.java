@@ -1,4 +1,4 @@
-package ru.stqa.ol.addressbook;
+package ru.stqa.ol.addressbook.appmanager;
 
 public class LoginData {
   private final String username;
