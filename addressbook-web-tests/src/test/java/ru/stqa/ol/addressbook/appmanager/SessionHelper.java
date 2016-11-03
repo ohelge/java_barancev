@@ -6,22 +6,16 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 /**
  * Created by OL A546902 on 2016-11-03.
  */
-public class SessionHelper {
+public class SessionHelper extends HelperBase{
 
-
-  private FirefoxDriver wd;
 
   public SessionHelper(FirefoxDriver wd) {
-
-    this.wd = wd;
+    super(wd);
   }
 
   public void login(LoginData loginData) {
-    wd.findElement(By.name("user")).clear();
-    wd.findElement(By.name("user")).sendKeys(loginData.getUsername());
-    wd.findElement(By.name("pass")).click();
-    wd.findElement(By.name("pass")).clear();
-    wd.findElement(By.name("pass")).sendKeys(loginData.getPassword());
-    wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
+    type(By.name("user"), loginData.getUsername() );
+    type(By.name("pass"), loginData.getPassword() );
+    click(By.xpath("//form[@id='LoginForm']/input[3]"));
   }
 }

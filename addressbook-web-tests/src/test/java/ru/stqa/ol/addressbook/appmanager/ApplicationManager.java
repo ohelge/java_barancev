@@ -1,7 +1,6 @@
 package ru.stqa.ol.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.ol.addressbook.model.ContactData;
 
@@ -19,14 +18,6 @@ public class ApplicationManager {
   private GroupHelper groupHelper;
   private SessionHelper sessionHelper;
 
-  public static boolean isAlertPresent(FirefoxDriver wd) {
-    try {
-      wd.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
 
   public void init() {
     // Gecko driver (needed for working Selenium 3 + Fifefox.v > 48) http://barancev.github.io/geckodriver/
@@ -44,11 +35,6 @@ public class ApplicationManager {
 
   public void stop() {
     wd.quit();
-  }
-
-
-  public void returnToHomePage() {
-    wd.findElement(By.linkText("home")).click();
   }
 
   public GroupHelper getGroupHelper() {
