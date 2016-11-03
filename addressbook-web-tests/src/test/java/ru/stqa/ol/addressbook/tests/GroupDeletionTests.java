@@ -8,10 +8,10 @@ public class GroupDeletionTests extends TestBase{
     @Test
     public void testGroupDeletion() {
         app.gotoGroupPage();
-        app.selectGroup();
+        app.getGroupHelper().selectGroup();
         // try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
-        app.deleteSelectedGroups();
-        app.returnToGroupPage();
+        app.getGroupHelper().deleteSelectedGroups();
+        app.getGroupHelper().returnToGroupPage();
     }
 
 
