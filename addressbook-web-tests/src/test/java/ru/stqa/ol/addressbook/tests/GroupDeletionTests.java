@@ -7,7 +7,7 @@ public class GroupDeletionTests extends TestBase{
     
     @Test
     public void testGroupDeletion() {
-        app.gotoGroupPage();
+        app.getNavigationHelper().gotoGroupPage();
         app.getGroupHelper().selectGroup();
         // try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
         app.getGroupHelper().deleteSelectedGroups();
