@@ -7,34 +7,39 @@ import ru.stqa.ol.addressbook.model.ContactData;
 /**
  * Created by OL on 2016-11-03.
  */
-public class ContactHelper {
-
-  private FirefoxDriver wd;
+public class ContactHelper extends HelperBase {
 
   public ContactHelper(FirefoxDriver wd) {
-    this.wd = wd;
+    super(wd);
   }
 
-  public void submitContactCreation() {
-    wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
+  public void submitContactCreation(String xpathExpression) {
+    wd.findElement(By.xpath(xpathExpression)).click();
   }
 
   public void contactFill(ContactData contactData) {
-    wd.findElement(By.name("firstname")).click();
-    wd.findElement(By.name("firstname")).clear();
-    wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstname());
-    wd.findElement(By.name("middlename")).click();
-    wd.findElement(By.name("middlename")).sendKeys(contactData.getMiddlename());
-    wd.findElement(By.name("lastname")).click();
-    wd.findElement(By.name("lastname")).clear();
-    wd.findElement(By.name("lastname")).sendKeys(contactData.getLastname());
-    wd.findElement(By.name("nickname")).click();
-    wd.findElement(By.name("nickname")).sendKeys(contactData.getNickname());
-    wd.findElement(By.name("email")).click();
-    wd.findElement(By.name("email")).clear();
-    wd.findElement(By.name("email")).sendKeys(contactData.getEmail());
-    wd.findElement(By.name("address2")).click();
-    wd.findElement(By.name("address2")).clear();
-    wd.findElement(By.name("address2")).sendKeys(contactData.getAddress());
+    fillContactForm(contactData);
+  }
+
+  private void fillContactForm(ContactData contactData) {
+    type(By.name("firstname"), contactData.getFirstname());
+    type(By.name("middlename"), contactData.getMiddlename());
+    type(By.name("lastname"), contactData.getLastname());
+    type(By.name("nickname"), contactData.getNickname());
+    type(By.name("email"), contactData.getEmail());
+    type(By.name("address2"), contactData.getAddress());
+
+  }
+
+  public void editContact() {
+    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+  }
+
+  public void updateContact() {
+    click(By.name("update"));
+  }
+
+  public void deleteContact() {
+    click(By.xpath("//div[@id='content']/form[2]/input[2]"));
   }
 }

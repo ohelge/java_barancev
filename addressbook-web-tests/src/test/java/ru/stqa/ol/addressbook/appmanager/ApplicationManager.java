@@ -1,6 +1,5 @@
 package ru.stqa.ol.addressbook.appmanager;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.ol.addressbook.model.ContactData;
 
@@ -43,14 +42,6 @@ public class ApplicationManager {
 
   public ContactHelper getContactHelper() {
     return contactHelper;
-  }
-
-  public void submitContactCreation() {
-    contactHelper.submitContactCreation();
-  }
-
-  public void contactFill(ContactData contactData) {
-    contactHelper.contactFill(contactData);
   }
 
   public NavigationHelper getNavigationHelper() {

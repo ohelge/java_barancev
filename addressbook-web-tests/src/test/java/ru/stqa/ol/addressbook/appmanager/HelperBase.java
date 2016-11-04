@@ -14,11 +14,9 @@ public class HelperBase {
   public HelperBase(FirefoxDriver wd) {
     this.wd = wd;
   }
-
   protected void click(By locator) {
     wd.findElement(locator).click();
   }
-
   protected void type(By locator, String text) {
     click(locator);
     wd.findElement(locator).clear();
@@ -32,4 +30,7 @@ public class HelperBase {
       return false;
     }
   }
+
+
+
 }
