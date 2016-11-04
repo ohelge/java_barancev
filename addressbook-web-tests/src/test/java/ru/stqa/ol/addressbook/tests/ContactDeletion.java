@@ -1,7 +1,6 @@
 package ru.stqa.ol.addressbook.tests;
 
 import org.testng.annotations.Test;
-import ru.stqa.ol.addressbook.appmanager.HelperBase;
 
 /**
  * Created by A546902 on 2016-11-04.
