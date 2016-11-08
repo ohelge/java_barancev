@@ -13,12 +13,9 @@ public class ContactModificationTests extends TestBase{
     app.getNavigationHelper().returnToHomePage();
     app.getContactHelper().editContact();
     app.getContactHelper().fillContactForm(new ContactData("First name0", "Last name0", "first-name1.last-name1@gmail.com", "Address0", null), false);
-    //try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
     app.getContactHelper().updateContact();
-
     app.getNavigationHelper().returnToHomePage();
 
-    //app.getContactHelper().submitContactCreation();
     // try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
 
   }

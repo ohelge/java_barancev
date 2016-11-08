@@ -14,9 +14,7 @@ public class GroupModifiactionTests extends TestBase {
     app.getGroupHelper().selectGroup();
     app.getGroupHelper().initGroupModification();
     app.getGroupHelper().fillGroupForm(new GroupData("Group0", null, null));
-    try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
-
-
+    //try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
     app.getGroupHelper().submitGroupModification();
     app.getGroupHelper().returnToGroupPage();
   }

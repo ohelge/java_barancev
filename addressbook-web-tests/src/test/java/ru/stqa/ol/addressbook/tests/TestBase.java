@@ -10,6 +10,7 @@ import ru.stqa.ol.addressbook.appmanager.ApplicationManager;
  */
 public class TestBase {
 
+  protected final ApplicationManager app = new ApplicationManager(BrowserType.CHROME); //copy corresponding driver to some directory declared in PATH
 
   @BeforeMethod
   public void setUp() throws Exception {
