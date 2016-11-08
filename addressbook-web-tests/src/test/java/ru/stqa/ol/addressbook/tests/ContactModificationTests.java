@@ -12,9 +12,10 @@ public class ContactModificationTests extends TestBase{
   public void testContactModification() {
     app.getNavigationHelper().returnToHomePage();
     app.getContactHelper().editContact();
-    app.getContactHelper().contactFill(new ContactData("First name0", "Middle name0", "Last name0", "Nick Name0", "first-name1.last-name1@gmail.com", "Address0"));
+    app.getContactHelper().fillContactForm(new ContactData("First name0", "Last name0", "first-name1.last-name1@gmail.com", "Address0", null), false);
+    //try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
     app.getContactHelper().updateContact();
-    try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
+
     app.getNavigationHelper().returnToHomePage();
 
     //app.getContactHelper().submitContactCreation();

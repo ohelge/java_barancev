@@ -6,7 +6,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by OL on 2016-11-02.
@@ -27,17 +26,17 @@ public class ApplicationManager {
 
   public void init() {
     // Gecko driver (needed for working Selenium 3 + Fifefox.v > 48) http://barancev.github.io/geckodriver/
-    //String marionetteDriverLocation = "C:\\Tools\\geckodriver.exe";
+    //String marionetteDriverLocation = "C:\\Tools\\geckodriver.exe"; Or just copy driver to some directory declared in PATH
     //System.setProperty("webdriver.gecko.driver", marionetteDriverLocation);
-    if (browser == BrowserType.FIREFOX) {
+    if (browser.equals (BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
-    } else if (browser == BrowserType.CHROME) {
+    } else if (browser.equals (BrowserType.CHROME)) {
       wd = new ChromeDriver();
-    } else if (browser == BrowserType.IE) {
+    } else if (browser.equals (BrowserType.IE)) {
       wd = new InternetExplorerDriver();
     }
 
-    wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    //wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/group.php");
     contactHelper = new ContactHelper(wd);
     groupHelper = new GroupHelper(wd);

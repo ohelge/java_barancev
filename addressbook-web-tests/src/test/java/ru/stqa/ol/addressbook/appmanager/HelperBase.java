@@ -1,8 +1,6 @@
 package ru.stqa.ol.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
@@ -20,8 +18,14 @@ public class HelperBase {
   }
   protected void type(By locator, String text) {
     click(locator);
-    wd.findElement(locator).clear();
-    wd.findElement(locator).sendKeys(text);
+    if (text != null) { // from video l3_m05-06
+      String existingText = wd.findElement(locator).getAttribute("value");
+      if (! text.equals(existingText)) {  //esli ne verno 4to text sovpadaet s uzhe suwestvuuwim. OBS proverka polezna dlq proizvoditel'nosti: Selenium zapolnqet pola posimvol'no
+        wd.findElement(locator).clear();
+        wd.findElement(locator).sendKeys(text);
+      }
+    }
+
   }
   public boolean isAlertPresent() {
     try {
@@ -33,5 +37,12 @@ public class HelperBase {
   }
 
 
-
+  protected boolean isElementPresent(By locator) {
+    try {
+      wd.findElement(locator);
+      return true;
+    } catch(NoSuchElementException ex) {
+      return false;
+    }
+  }
 }
