@@ -1,5 +1,6 @@
 package ru.stqa.ol.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.GroupData;
 
@@ -11,6 +12,8 @@ public class GroupModifiactionTests extends TestBase {
   @Test
   public void testGroupModification(){
     app.getNavigationHelper().gotoGroupPage();
+
+    int before = app.getGroupHelper().getGroupCount();
     if (! app.getGroupHelper().isThereAGroup()) {
       app.getGroupHelper().createGroup(new GroupData("Group2", "Group2 header", "Group2 footer"));
     }
@@ -19,6 +22,11 @@ public class GroupModifiactionTests extends TestBase {
     app.getGroupHelper().fillGroupForm(new GroupData("Group0", null, null));
     //try { Thread.sleep(5000l); } catch (Exception e) { throw new RuntimeException(e); }
     app.getGroupHelper().submitGroupModification();
-    app.getGroupHelper().returnToGroupPage();
+    app.getNavigationHelper().gotoGroupPage();
+
+    int after = app.getGroupHelper().getGroupCount();
+    Assert.assertEquals(after, before );
+
+
   }
 }

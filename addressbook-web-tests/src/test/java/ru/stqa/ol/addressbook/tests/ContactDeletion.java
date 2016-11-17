@@ -1,5 +1,6 @@
 package ru.stqa.ol.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -10,8 +11,13 @@ public class ContactDeletion extends TestBase {
   @Test
   public void contactDeletion(){
     app.getNavigationHelper().returnToHomePage();
+    int before = app.getContactHelper().getContactCount();
+
     app.getContactHelper().editContact();
     app.getContactHelper().deleteContact();
     app.getNavigationHelper().returnToHomePage();
+
+    int after = app.getContactHelper().getContactCount();
+    Assert.assertEquals(after, before - 1);
   }
 }
