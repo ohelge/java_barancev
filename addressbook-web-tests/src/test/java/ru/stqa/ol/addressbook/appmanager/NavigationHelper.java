@@ -23,7 +23,7 @@ public class NavigationHelper extends HelperBase {
     }
 
   public void gotoContactPage() {
-    if ( isElementPresent( By.name("new_group")) ) {
+    if ( isElementPresent( By.name("Submit")) ) {
       return;
     }
     click(By.linkText("add new"));

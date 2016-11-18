@@ -50,4 +50,12 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
+    // click(By.name("selected[]"));
+  }
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
+  }
+
 }
