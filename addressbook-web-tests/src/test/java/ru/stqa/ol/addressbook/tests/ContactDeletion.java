@@ -56,5 +56,8 @@ public class ContactDeletion extends TestBase {
     //int after = app.getContactHelper().getContactCount();
 
     Assert.assertEquals(after.size(), before2);
+
+    before.remove(before2 - 1);
+    Assert.assertEquals(after, before);
   }
 }

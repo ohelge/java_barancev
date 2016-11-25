@@ -23,7 +23,14 @@ public class ContactData {
     return firstname;
   }
 
-  /*public String getMiddlename() {
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            '}';
+  }
+/*public String getMiddlename() {
     return middlename;
   }*/
 
