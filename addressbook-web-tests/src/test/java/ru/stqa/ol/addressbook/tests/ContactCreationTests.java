@@ -12,7 +12,7 @@ import java.util.List;
 public class ContactCreationTests extends TestBase {
 
 
-  @Test
+  @Test (enabled = false)
   public void contactCreation() {
     app.getNavigationHelper().returnToHomePage();
     // int before = app.getContactHelper().getContactCount();
@@ -41,7 +41,7 @@ public class ContactCreationTests extends TestBase {
     List<ContactData> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
-    int max = 0;
+ /*   int max = 0;
     for (ContactData c : after) {
       if (c.getId() > max) {
         max = c.getId();
@@ -55,8 +55,8 @@ public class ContactCreationTests extends TestBase {
     };
     int max1 = after.stream().max(byId2).get().getId();
     contact.setId(max1);
-    // Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
-
+    Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
+*/
     before.add(contact);
 
     Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId() );

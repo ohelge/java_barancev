@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ContactDeletion extends TestBase {
 
-  @Test
+  @Test (enabled = false)
   public void contactDeletion() {
     app.getNavigationHelper().returnToHomePage();
     // int before = app.getContactHelper().getContactCount();

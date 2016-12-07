@@ -13,14 +13,6 @@ public class NavigationHelper extends HelperBase {
     super(wd);
   }
 
-  public void gotoGroupPage() {
-    if (isElementPresent(By.tagName("h1")) //Checking page Groups  with button "New group" then exit from method: return
-            && wd.findElement(By.tagName("h1")).getText().equals("Groups")
-            && isElementPresent(By.name("new"))) {
-      return;
-    }
-    click(By.linkText("groups"));
-    }
 
   public void gotoContactPage() {
     if ( isElementPresent( By.name("Submit")) ) {
