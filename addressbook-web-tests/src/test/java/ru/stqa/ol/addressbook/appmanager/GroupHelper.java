@@ -82,7 +82,7 @@ public class GroupHelper extends HelperBase {
       String name = element.getText();
       // String id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // l4_m7 novii parametr id is GroupData. Prisvaivaem zna4enie "value"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  //l4_m8: Preobrazovanie stroki v integer id
-      GroupData group = new GroupData(id, name, null,null);
+      GroupData group = new GroupData().withId(id).withGroupname(name) ;
       groups.add(group);
     }
     return groups;

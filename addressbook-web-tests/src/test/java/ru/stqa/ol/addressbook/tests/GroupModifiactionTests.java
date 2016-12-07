@@ -14,7 +14,7 @@ public class GroupModifiactionTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().groupPage();
     if (!app.group().isThereAGroup()) {  // ili if (app.group().list().size() == 0)
-      app.group().create(new GroupData("Group2", "Group2 header", "Group2 footer"));
+      app.group().create(new GroupData().withGroupname("Group2") );
       try {
         Thread.sleep(2000);
       } catch (Exception e) {
@@ -30,7 +30,11 @@ public class GroupModifiactionTests extends TestBase {
     List<GroupData> before = app.group().list();
     int index = before.size() - 1;
 
-    GroupData group = new GroupData(before.get(index).getId(), "Group2", "Group2 header", "Group2 footer"); //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
+    GroupData group = new GroupData()
+            .withId(before.get(index).getId())  //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
+            .withGroupname("Group2")
+            .withGroupheader("Group2 header")
+            .withGroupfooter("Group2 footer") ;
     app.group().modify(index, group);
 
     List<GroupData> after = app.group().list();
