@@ -6,16 +6,15 @@ import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.GroupData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class GroupModifiactionTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
-    app.getNavigationHelper().gotoGroupPage();
-    if (!app.getGroupHelper().isThereAGroup()) {
-      app.getGroupHelper().createGroup(new GroupData("Group2", "Group2 header", "Group2 footer"));
+    app.goTo().groupPage();
+    if (!app.group().isThereAGroup()) {  // ili if (app.group().list().size() == 0)
+      app.group().create(new GroupData("Group2", "Group2 header", "Group2 footer"));
       try {
         Thread.sleep(2000);
       } catch (Exception e) {
@@ -28,14 +27,14 @@ public class GroupModifiactionTests extends TestBase {
   public void testGroupModification() {
 
 
-    List<GroupData> before = app.getGroupHelper().getGroupList();
+    List<GroupData> before = app.group().list();
     int index = before.size() - 1;
 
     GroupData group = new GroupData(before.get(index).getId(), "Group2", "Group2 header", "Group2 footer"); //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
-    app.getGroupHelper().modifyGroup(index, group);
+    app.group().modify(index, group);
 
-    List<GroupData> after = app.getGroupHelper().getGroupList();
-    // int after = app.getGroupHelper().getGroupCount();
+    List<GroupData> after = app.group().list();
+    // int after = app.group().getGroupCount();
     Assert.assertEquals(after.size(), before.size());
 
     before.remove(index);

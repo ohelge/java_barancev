@@ -3,10 +3,8 @@ package ru.stqa.ol.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.ContactData;
-import ru.stqa.ol.addressbook.model.GroupData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
@@ -14,31 +12,31 @@ public class ContactCreationTests extends TestBase {
 
   @Test (enabled = false)
   public void contactCreation() {
-    app.getNavigationHelper().returnToHomePage();
-    // int before = app.getContactHelper().getContactCount();
-    List<ContactData> before = app.getContactHelper().getContactList();
+    app.goTo().contactPage();
+    // int before = app.contact().getContactCount();
+    List<ContactData> before = app.contact().list();
     ContactData contact = new ContactData("First name1", "Last name1", "first-name1.last-name1@gmail.com", "Address1", "Group2");
     // ContactData contactNone = new ContactData("First name0", "Last name0", "first-name1.last-name1@gmail.com", "Address1", "[none]");
-    app.getNavigationHelper().gotoGroupPage(); // smotrim est' li gruppa
-    if (app.getGroupHelper().isThereAGroup()) {
-      app.getNavigationHelper().gotoContactPage();
-      app.getContactHelper().fillContactForm(contact, true);
+    app.goTo().groupPage(); // smotrim est' li gruppa
+    if (app.group().isThereAGroup()) {
+      app.goTo().addNew();
+      app.contact().fill(contact, true);
       try {
         Thread.sleep(2000);
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
     } else { // esli net grupp, to zapolnqem v pole group "[none]"
-      app.getNavigationHelper().gotoContactPage();
+      app.goTo().addNew();
       contact = new ContactData("First name0", "Last name0", "first-name1.last-name1@gmail.com", "Address1", "[none]");
-      app.getContactHelper().fillContactForm(contact, true);
+      app.contact().fill(contact, true);
     }
 
-    app.getContactHelper().submitContactCreation("//div[@id='content']/form/input[21]");
-    app.getNavigationHelper().returnToHomePage();
+    app.contact().submit("//div[@id='content']/form/input[21]");
+    app.goTo().contactPage();
 
-    // int after = app.getContactHelper().getContactCount();
-    List<ContactData> after = app.getContactHelper().getContactList();
+    // int after = app.contact().getContactCount();
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size() + 1);
 
  /*   int max = 0;

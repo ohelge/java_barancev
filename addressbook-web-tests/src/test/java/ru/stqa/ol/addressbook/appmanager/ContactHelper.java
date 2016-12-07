@@ -20,11 +20,11 @@ public class ContactHelper extends HelperBase {
     super(wd);
   }
 
-  public void submitContactCreation(String xpathExpression) {
+  public void submit(String xpathExpression) {
     wd.findElement(By.xpath(xpathExpression)).click();
   }
 
-  public void fillContactForm(ContactData contactData, boolean creation) { // added boolean creation dlq flaga sozdaniq kontakta, false- dlq modifikacii. Video l3_m08
+  public void fill(ContactData contactData, boolean creation) { // added boolean creation dlq flaga sozdaniq kontakta, false- dlq modifikacii. Video l3_m08
     type(By.name("firstname"), contactData.getFirstname());
     //type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
@@ -39,7 +39,7 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public void editContact() {
+  public void edit() {
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
   }
 
@@ -47,7 +47,11 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void deleteContact() {
+  public void delete2() {
+    click(By.name("delete"));
+  }
+
+  public void delete() {
     click(By.xpath("//div[@id='content']/form[2]/input[2]"));
   }
 
@@ -55,7 +59,7 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public void selectContact(int index) {
+  public void select(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
     // click(By.name("selected[]"));
   }
@@ -64,7 +68,7 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public List<ContactData> getContactList() {
+  public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<ContactData>();
     //List<WebElement> elements = wd.findElements( By.cssSelector("tr"));
 

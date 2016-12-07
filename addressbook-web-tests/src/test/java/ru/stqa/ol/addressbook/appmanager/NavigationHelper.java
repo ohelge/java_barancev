@@ -14,14 +14,14 @@ public class NavigationHelper extends HelperBase {
   }
 
 
-  public void gotoContactPage() {
+  public void addNew() {
     if ( isElementPresent( By.name("Submit")) ) {
       return;
     }
     click(By.linkText("add new"));
   }
 
-  public void returnToHomePage() {
+  public void contactPage() {
     if (isElementPresent(By.id("maintable"))) {
       return;
     }
