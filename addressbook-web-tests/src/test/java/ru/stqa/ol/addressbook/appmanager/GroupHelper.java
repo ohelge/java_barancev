@@ -5,8 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.ol.addressbook.model.GroupData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by OL on 2016-11-03.
@@ -35,9 +36,8 @@ public class GroupHelper extends HelperBase {
     click(By.name("delete"));
   }
 
-  public void selectGroup(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
-    // click(By.name("selected[]"));
+  public void selectGroupById(int id) {   //l5_m5: novii metod
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
   public void initGroupModification() {
@@ -53,17 +53,17 @@ public class GroupHelper extends HelperBase {
     fillGroupForm(group);
     submitGroupCreation();
   }
-  public void modify(int index, GroupData group) {
-    selectGroup(index);
+  public void modify(GroupData group) {  //l5_m5: menqetsq parametr
+    selectGroupById(group.getId());
     initGroupModification();
     fillGroupForm(group);
     //try { Thread.sleep(2000); } catch (Exception e) { throw new RuntimeException(e); }
     submitGroupModification();
     groupPage();
   }
-  public void delete(int index) {
-    selectGroup(index);
-    // try { Thread.sleep(5000); } catch (Exception e) { throw new RuntimeException(e); }
+
+  public void delete(GroupData group) { //l5_m5: novii metod delete
+    selectGroupById(group.getId());
     deleteSelectedGroups();
     groupPage();
   }
@@ -75,8 +75,9 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<GroupData> list() {
-    List<GroupData> groups = new ArrayList<GroupData>();
+
+  public Set<GroupData> all() {
+    Set<GroupData> groups = new HashSet<GroupData>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements) {
       String name = element.getText();
@@ -87,6 +88,7 @@ public class GroupHelper extends HelperBase {
     }
     return groups;
   }
+
 
 }
 

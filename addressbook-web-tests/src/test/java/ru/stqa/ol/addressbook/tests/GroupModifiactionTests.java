@@ -7,6 +7,7 @@ import ru.stqa.ol.addressbook.model.GroupData;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class GroupModifiactionTests extends TestBase {
 
@@ -25,31 +26,23 @@ public class GroupModifiactionTests extends TestBase {
 
   @Test
   public void testGroupModification() {
-
-
-    List<GroupData> before = app.group().list();
-    int index = before.size() - 1;
-
+    app.goTo().groupPage();
+    Set<GroupData> before = app.group().all();
+    GroupData modifiedGroup = before.iterator().next(); //l5_m5: vozvrawaem pervii popavwiisq element mnojestva
     GroupData group = new GroupData()
-            .withId(before.get(index).getId())  //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
+            .withId(modifiedGroup.getId())  //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
             .withGroupname("Group2")
             .withGroupheader("Group2 header")
-            .withGroupfooter("Group2 footer") ;
-    app.group().modify(index, group);
+            .withGroupfooter("Group2 footer");
+    app.group().modify(group);
 
-    List<GroupData> after = app.group().list();
-    // int after = app.group().getGroupCount();
+    Set<GroupData> after = app.group().all();
     Assert.assertEquals(after.size(), before.size());
 
-    before.remove(index);
+    before.remove(modifiedGroup);
     before.add(group);
-    Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    before.sort(byId);
-    after.sort(byId);
-    Assert.assertEquals(before, after);
 
-    // Assert.assertEquals(new HashSet<>(before), new HashSet<>(after)); // preobrazovanie spiska after/before v mnozhestvo (4tobi sravnivat' neupoqdo4ennie mnozhestva). OBS. spiski eto uporqdo4ennoe mnozhestvo.
-    // OBS. esli budut 2 gruppi s odinakovimi imenami to mnozhestvo pomestit ih v odin element. Group imeet identifikator value (inspect element)
+    Assert.assertEquals(before, after);
 
   }
 
