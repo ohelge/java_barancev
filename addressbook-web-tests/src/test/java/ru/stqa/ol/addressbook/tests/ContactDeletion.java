@@ -11,51 +11,35 @@ import java.util.List;
  */
 public class ContactDeletion extends TestBase {
 
-  @Test (enabled = false)
+  @Test(enabled = true)
   public void contactDeletion() {
     app.goTo().contactPage();
     // int before = app.contact().getContactCount();
     List<ContactData> before = app.contact().list();
-    int before2;
+    int before2 = before.size();
     if (!app.contact().isThereAContact()) {
       app.goTo().groupPage();
       if (app.group().isThereAGroup()) {
         app.goTo().addNew();
         app.contact().fill(new ContactData("First name1", "Last name1", "first-name1.last-name1@gmail.com", "Address1", "Group2"), true);
         app.contact().submit("//div[@id='content']/form/input[21]");
-        app.goTo().contactPage();
-        //try { Thread.sleep(2000); } catch (Exception e) { throw new RuntimeException(e); }
-        before2 = before.size() +1 ;
       } else {
-        app.goTo().contactPage();
         app.goTo().addNew();
         app.contact().fill(new ContactData("First name4", "Last name4", "first-name1.last-name1@gmail.com", "Address1", "[none]"), true);
         app.contact().submit("//div[@id='content']/form/input[21]");
-        app.goTo().contactPage();
-        before2 = before.size() +1 ;
-        // before++;
+
       }
     } else {
-      before2 = before.size() ;
 
+      before.remove(0);
     }
-
-    try {
-      Thread.sleep(2000);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-    List<ContactData> after = app.contact().list();
-    app.contact().edit();
-    try { Thread.sleep(2000); } catch (Exception e) { throw new RuntimeException(e); }
-    app.contact().delete();
     app.goTo().contactPage();
 
-    //int after = app.contact().getContactCount();
-
-    Assert.assertEquals(after.size(), before2 -1);
-
-    before.remove(before2 - 1);
+    app.contact().edit();
+    app.contact().delete();
+    app.goTo().contactPage();
+    List<ContactData> after = app.contact().list();
+    Assert.assertEquals(after.size(), before.size());
     Assert.assertEquals(after, before);
   }
 }

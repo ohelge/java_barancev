@@ -70,25 +70,22 @@ public class ContactHelper extends HelperBase {
 
   public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<ContactData>();
-    //List<WebElement> elements = wd.findElements( By.cssSelector("tr"));
-
-    /*List<WebElement> elements = wd.findElements(By.cssSelector("tr.odd"));
+    List<WebElement> elements = wd.findElements(By.name("entry") );
     for (WebElement element : elements) {
-      String name = element.getText();
-      // String id = element.findElement(By.tagName("input")).getAttribute("value");
-      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  //l4_m8: Preobrazovanie stroki v integer id
+      String name = element.findElements( By.tagName("td") ).get(2).getText()  ;
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
       ContactData contact = new ContactData(id, name, null, null, null, null);
       contacts.add(contact);
-    }*/
+    }
 
-    List<WebElement> elements2 = wd.findElements(By.cssSelector("tr.odd"));
+    /*List<WebElement> elements2 = wd.findElements(By.cssSelector("tr.odd"));
     for (WebElement element : elements2) {
       String name = element.getText();
       // String id = element.findElement(By.tagName("input")).getAttribute("value");
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  //l4_m8: Preobrazovanie stroki v integer id
       ContactData contact = new ContactData(id, name, null, null, null, null);
       contacts.add(contact);
-    }
+    }*/
 
     return contacts;
   }
