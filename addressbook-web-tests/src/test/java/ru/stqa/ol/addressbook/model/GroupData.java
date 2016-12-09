@@ -7,25 +7,11 @@ public class GroupData {
   private String groupheader;
   private String groupfooter;
 
- /* //  2 konstruktora
-  public GroupData(int id, String groupname, String groupheader, String groupfooter) {
-    this.id = id;
-    this.groupname = groupname;
-    this.groupheader = groupheader;
-    this.groupfooter = groupfooter;
-  }
-  public GroupData(String groupname, String groupheader, String groupfooter) {
-    this.id = Integer.MAX_VALUE;
-    this.groupname = groupname;
-    this.groupheader = groupheader;
-    this.groupfooter = groupfooter;
-  }*/
-
   public int getId() {
     return id;
   }
 
-   // Generim setteri i menqem setteri setId na withId etc..Zatem dobavlqem return this i menqem void na GroupData. a zatem udalqem/ kommentim 2 konstruktora
+  // Generim setteri i menqem setteri setId na withId etc..Zatem dobavlqem return this i menqem void na GroupData. a zatem udalqem/ kommentim 2 konstruktora
   public GroupData withId(int id) {
     this.id = id;
     return this;
@@ -65,6 +51,7 @@ public class GroupData {
             ", groupname='" + groupname + '\'' +
             '}';
   }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

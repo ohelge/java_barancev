@@ -3,8 +3,10 @@ package ru.stqa.ol.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.ContactData;
+import ru.stqa.ol.addressbook.model.GroupData;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by A546902 on 2016-11-04.
@@ -14,32 +16,35 @@ public class ContactDeletion extends TestBase {
   @Test(enabled = true)
   public void contactDeletion() {
     app.goTo().contactPage();
-    // int before = app.contact().getContactCount();
-    List<ContactData> before = app.contact().list();
-    int before2 = before.size();
     if (!app.contact().isThereAContact()) {
       app.goTo().groupPage();
       if (app.group().isThereAGroup()) {
-        app.goTo().addNew();
-        app.contact().fill(new ContactData("First name1", "Last name1", "first-name1.last-name1@gmail.com", "Address1", "Group2"), true);
-        app.contact().submit("//div[@id='content']/form/input[21]");
-      } else {
-        app.goTo().addNew();
-        app.contact().fill(new ContactData("First name4", "Last name4", "first-name1.last-name1@gmail.com", "Address1", "[none]"), true);
-        app.contact().submit("//div[@id='content']/form/input[21]");
-
+        app.contact().create(new ContactData()
+                .withFirstname("First name1")
+                .withLastname("Last name1")
+                .withEmail("first-name1.last-name1@gmail.com")
+                .withAddress("Address1").withGroup("Group2") );
+         } else {
+        app.contact().create(new ContactData()
+                .withFirstname("First name1")
+                .withLastname("Last name1")
+                .withEmail("first-name1.last-name1@gmail.com")
+                .withAddress("Address1").withGroup("[none]") );
       }
-    } else {
-
-      before.remove(0);
     }
-    app.goTo().contactPage();
 
-    app.contact().edit();
-    app.contact().delete();
     app.goTo().contactPage();
-    List<ContactData> after = app.contact().list();
-    Assert.assertEquals(after.size(), before.size());
+    Set<ContactData> before = app.contact().all();
+    ContactData deletedContact = before.iterator().next();
+    app.contact().delete(deletedContact);
+
+    app.goTo().contactPage();
+    Set<ContactData> after = app.contact().all();
+    Assert.assertEquals(after.size(), before.size() - 1);
+
+    before.remove(deletedContact);
     Assert.assertEquals(after, before);
+
+
   }
 }

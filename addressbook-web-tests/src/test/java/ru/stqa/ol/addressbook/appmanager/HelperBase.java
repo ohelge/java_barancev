@@ -54,4 +54,10 @@ public class HelperBase {
     }
     click(By.linkText("groups"));
   }
+  public void contactPage() {
+    if (isElementPresent(By.id("maintable"))) {
+      return;
+    }
+    wd.findElement(By.linkText("home")).click();
+  }
 }
