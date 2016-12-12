@@ -3,11 +3,10 @@ package ru.stqa.ol.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.ContactData;
-import ru.stqa.ol.addressbook.model.GroupData;
+import ru.stqa.ol.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by OL A546902 on 2016-11-04.
@@ -25,10 +24,11 @@ public class ContactModificationTests extends TestBase {
               .withEmail("first-name1.last-name1@gmail.com"));
     }
     app.goTo().contactPage();
-    Set<ContactData> before = app.contact().all();
+    Contacts before = app.contact().all();
 
     ContactData modifiedContact = before.iterator().next(); //l5_m5: vozvrawaem pervii popavwiisq element mnojestva
     ContactData contact = new ContactData()
+            .withId(modifiedContact.getId())
             .withFirstname("First name1")
             .withLastname("Last name1")
             .withEmail("first-name1.last-name1@gmail.com");
@@ -40,10 +40,10 @@ public class ContactModificationTests extends TestBase {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    Set<ContactData> after = app.contact().all();
+    Contacts after = app.contact().all();
     Assert.assertEquals(after.size(), before.size());
 
-    Assert.assertEquals(before, after);
+    assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     // try { Thread.sleep(5000); } catch (Exception e) { throw new RuntimeException(e); }
 
   }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.ol.addressbook.model.ContactData;
+import ru.stqa.ol.addressbook.model.Contacts;
 import ru.stqa.ol.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -90,8 +91,8 @@ deleteSelectedContact();
     return isElementPresent(By.name("selected[]"));
   }
 
-  public Set<ContactData> all() {
-    Set<ContactData> contacts = new HashSet<ContactData>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry") );
     for (WebElement element : elements) {
       String name = element.findElements( By.tagName("td") ).get(2).getText()  ;

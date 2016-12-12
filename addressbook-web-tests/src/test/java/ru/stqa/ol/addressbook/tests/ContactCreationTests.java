@@ -1,9 +1,17 @@
 package ru.stqa.ol.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.ContactData;
+import ru.stqa.ol.addressbook.model.Contacts;
+
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.testng.Assert.assertEquals;
 
 public class ContactCreationTests extends TestBase {
 
@@ -11,7 +19,7 @@ public class ContactCreationTests extends TestBase {
   @Test (enabled = true)
   public void contactCreation() {
     app.goTo().contactPage();
-    Set<ContactData> before = app.contact().all();
+    Contacts before = app.contact().all();
     ContactData contact = new ContactData()
             .withFirstname("First name1")
             .withLastname("Last name1")
@@ -19,14 +27,12 @@ public class ContactCreationTests extends TestBase {
     app.contact().create(contact);
 
     app.goTo().contactPage();
-    Set<ContactData> after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size() + 1);
+    Contacts after = app.contact().all();
+    assertEquals(after.size(), before.size() + 1);
 
     contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt() );
-    before.add(contact);
 
-    Assert.assertEquals(before, after);
-
+    assertThat(after, equalTo(before.withAdded(contact)) );
 
   }
 

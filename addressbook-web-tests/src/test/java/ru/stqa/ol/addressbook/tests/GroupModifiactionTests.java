@@ -4,10 +4,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.GroupData;
+import ru.stqa.ol.addressbook.model.Groups;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.*;
+import static org.testng.Assert.assertEquals;
 
 public class GroupModifiactionTests extends TestBase {
 
@@ -27,7 +28,7 @@ public class GroupModifiactionTests extends TestBase {
   @Test
   public void testGroupModification() {
     app.goTo().groupPage();
-    Set<GroupData> before = app.group().all();
+    Groups before = app.group().all();
     GroupData modifiedGroup = before.iterator().next(); //l5_m5: vozvrawaem pervii popavwiisq element mnojestva
     GroupData group = new GroupData()
             .withId(modifiedGroup.getId())  //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
@@ -36,13 +37,10 @@ public class GroupModifiactionTests extends TestBase {
             .withGroupfooter("Group2 footer");
     app.group().modify(group);
 
-    Set<GroupData> after = app.group().all();
-    Assert.assertEquals(after.size(), before.size());
+    Groups after = app.group().all();
+    assertEquals(after.size(), before.size());
 
-    before.remove(modifiedGroup);
-    before.add(group);
-
-    Assert.assertEquals(before, after);
+    assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));
 
   }
 
