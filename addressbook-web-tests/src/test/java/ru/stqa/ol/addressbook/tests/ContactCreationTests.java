@@ -12,7 +12,10 @@ public class ContactCreationTests extends TestBase {
   public void contactCreation() {
     app.goTo().contactPage();
     Set<ContactData> before = app.contact().all();
-    ContactData contact = new ContactData().withFirstname("First name1").withGroup("Group2");
+    ContactData contact = new ContactData()
+            .withFirstname("First name1")
+            .withLastname("Last name1")
+            .withEmail("first-name1.last-name1@gmail.com");
     app.contact().create(contact);
 
     app.goTo().contactPage();
@@ -23,27 +26,6 @@ public class ContactCreationTests extends TestBase {
     before.add(contact);
 
     Assert.assertEquals(before, after);
-
-    /*app.goTo().groupPage(); // smotrim est' li gruppa
-    if (app.group().isThereAGroup()) {
-      app.goTo().addNew();
-      app.contact().fill(contact, true);
-      app.contact().submit("//div[@id='content']/form/input[21]");
-      before.add(contact);
-      *//*try {
-        Thread.sleep(2000);
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }*//*
-    } else { // esli net grupp, to zapolnqem v pole group "[none]"
-      app.goTo().addNew();
-      contact = new ContactData().withGroup("[none]");
-      app.contact().fill(contact, true);
-      app.contact().submit("//div[@id='content']/form/input[21]");
-      before.add(contact);
-    }*/
-
-
 
 
   }

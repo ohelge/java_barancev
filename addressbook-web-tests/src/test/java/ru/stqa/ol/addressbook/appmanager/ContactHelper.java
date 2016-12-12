@@ -45,7 +45,7 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
   }
 
-  public void updateContact() {
+  public void update() {
     click(By.name("update"));
   }
 
@@ -57,10 +57,24 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[2]/input[2]"));
   }
 
+  public void selectContactById(int id) {   //l5_m5: novii metod
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+  }
+  public void deleteSelectedContact() {
+    click(By.cssSelector("input[value='Delete']") );
+  }
   public void delete(ContactData contact) {
-    contactPage();
-    edit();
-    delete_click();
+    //contactPage();
+    selectContactById(contact.getId());
+
+    try {
+      Thread.sleep(1000);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+deleteSelectedContact();
+
+    wd.switchTo().alert().accept();
   }
 
   public int getContactCount() {
@@ -98,5 +112,11 @@ public class ContactHelper extends HelperBase {
     addNew();
     fill(contact, true);
     submit("//div[@id='content']/form/input[21]");
+  }
+
+  public void modify(ContactData contact) {
+    edit();
+    fill(contact, false);
+    update();
   }
 }
