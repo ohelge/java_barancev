@@ -8,6 +8,7 @@ import org.testng.Assert;
 import ru.stqa.ol.addressbook.model.ContactData;
 import ru.stqa.ol.addressbook.model.Contacts;
 import ru.stqa.ol.addressbook.model.GroupData;
+import ru.stqa.ol.addressbook.model.Groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +37,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("address2"), contactData.getAddress());
 
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).getFirstSelectedOption() ;
+      new Select(wd.findElement(By.name("new_group"))).getFirstSelectedOption();
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -50,34 +51,63 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void delete2() {
-    click(By.name("delete"));
-  }
-
-  public void delete_click() {
-    click(By.xpath("//div[@id='content']/form[2]/input[2]"));
-  }
-
   public void selectContactById(int id) {   //l5_m5: novii metod
     wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
+
   public void deleteSelectedContact() {
-    click(By.cssSelector("input[value='Delete']") );
+    click(By.cssSelector("input[value='Delete']"));
   }
+
+  private Contacts contactCache = null; // l5_m7 Kewirovanie dobavka v metodi all, delete, create, modify
+
+  public Contacts all() {
+    if (contactCache != null) {
+      return new Contacts(contactCache);
+    }
+
+    Contacts contactCache = new Contacts();
+    List<WebElement> elements = wd.findElements(By.name("entry"));
+    for (WebElement element : elements) {
+      String name = element.findElements(By.tagName("td")).get(2).getText(); // Vo 2m td nahoditsq "First name"
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
+      contactCache.add(new ContactData().withId(id).withFirstname(name));
+    }
+    return new Contacts(contactCache);
+  }
+
   public void delete(ContactData contact) {
     //contactPage();
     selectContactById(contact.getId());
-
-    try {
-      Thread.sleep(1000);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-deleteSelectedContact();
-
+    // try {Thread.sleep(1000);    } catch (Exception e) {     throw new RuntimeException(e);    }
+    deleteSelectedContact();
     wd.switchTo().alert().accept();
+    contactCache = null;
   }
 
+  public void create(ContactData contact) {
+    addNew();
+    fill(contact, true);
+    submit("//div[@id='content']/form/input[21]");
+    contactCache = null;
+  }
+
+  public void modify(ContactData contact) {
+    edit();
+    fill(contact, false);
+    update();
+    contactCache = null;
+  }
+
+  public void addNew() {
+    if (isElementPresent(By.name("Submit"))) {
+      return;
+    }
+    click(By.linkText("add new"));
+  }
+
+
+  
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size();
   }
@@ -86,38 +116,12 @@ deleteSelectedContact();
     wd.findElements(By.name("selected[]")).get(index).click();
     // click(By.name("selected[]"));
   }
+  public void delete_click() {
+    click(By.xpath("//div[@id='content']/form[2]/input[2]"));
+  }
 
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public Contacts all() {
-    Contacts contacts = new Contacts();
-    List<WebElement> elements = wd.findElements(By.name("entry") );
-    for (WebElement element : elements) {
-      String name = element.findElements( By.tagName("td") ).get(2).getText()  ;
-      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
-      ContactData contact = new ContactData().withId(id).withFirstname(name) ;
-      contacts.add(contact);
-    }
-    return contacts;
-  }
-  public void addNew() {
-    if ( isElementPresent( By.name("Submit")) ) {
-      return;
-    }
-    click(By.linkText("add new"));
-  }
-
-  public void create(ContactData contact) {
-    addNew();
-    fill(contact, true);
-    submit("//div[@id='content']/form/input[21]");
-  }
-
-  public void modify(ContactData contact) {
-    edit();
-    fill(contact, false);
-    update();
-  }
 }

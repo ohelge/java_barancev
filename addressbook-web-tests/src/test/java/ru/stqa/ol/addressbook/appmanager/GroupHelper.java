@@ -5,10 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.ol.addressbook.model.GroupData;
 import ru.stqa.ol.addressbook.model.Groups;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by OL on 2016-11-03.
@@ -53,6 +50,7 @@ public class GroupHelper extends HelperBase {
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
+    groupCache = null;
   }
   public void modify(GroupData group) {  //l5_m5: menqetsq parametr
     selectGroupById(group.getId());
@@ -60,12 +58,14 @@ public class GroupHelper extends HelperBase {
     fillGroupForm(group);
     //try { Thread.sleep(2000); } catch (Exception e) { throw new RuntimeException(e); }
     submitGroupModification();
+    groupCache = null;
     groupPage();
   }
 
   public void delete(GroupData group) { //l5_m5: novii metod delete
     selectGroupById(group.getId());
     deleteSelectedGroups();
+    groupCache = null;
     groupPage();
   }
   public boolean isThereAGroup() {
@@ -76,19 +76,21 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-
+private Groups groupCache = null; // l5_m7 Kewirovanie dobavka v metodi all, delete, create, modify
 
   public Groups all() { //l5_m6 Pomenali Set na Groups
-    Groups groups = new Groups(); //l5_m6 Pomenali Set na Groups
+    if (groupCache != null) {
+      return new Groups(groupCache);
+    }
+    Groups groupCache = new Groups(); //l5_m6 Pomenali Set na Groups
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements) {
       String name = element.getText();
       // String id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // l4_m7 novii parametr id is GroupData. Prisvaivaem zna4enie "value"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  //l4_m8: Preobrazovanie stroki v integer id
-      GroupData group = new GroupData().withId(id).withGroupname(name) ;
-      groups.add(group);
+      groupCache.add(new GroupData().withId(id).withGroupname(name));
     }
-    return groups;
+    return new Groups(groupCache);
   }
 
 

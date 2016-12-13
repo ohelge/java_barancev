@@ -1,6 +1,7 @@
 package ru.stqa.ol.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.ContactData;
 import ru.stqa.ol.addressbook.model.Contacts;
@@ -12,17 +13,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Created by OL A546902 on 2016-11-04.
  */
 public class ContactModificationTests extends TestBase {
+  @BeforeMethod
+  public void ensurePreconditions() {
+    app.goTo().contactPage();
+    if (app.contact().all().size() == 0) {
+      app.contact().create(new ContactData()
+              .withFirstname("First name1")
+              .withLastname("Last name1")
+              .withEmail("first-name1.last-name1@gmail.com")
+              .withAddress("Address1"));
+    }
+  }
 
   @Test(enabled = true)
   public void testContactModification() {
 
-    app.goTo().contactPage();
-    if (!app.contact().isThereAContact()) {
-      app.contact().create(new ContactData()
-              .withFirstname("First name1")
-              .withLastname("Last name1")
-              .withEmail("first-name1.last-name1@gmail.com"));
-    }
     app.goTo().contactPage();
     Contacts before = app.contact().all();
 
