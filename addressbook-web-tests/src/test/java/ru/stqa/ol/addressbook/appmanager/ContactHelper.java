@@ -43,8 +43,10 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public void edit() {
-    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+  public void edit(int id) {
+    // click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    String php = "edit.php?id=" + Integer.toString(id);
+    click(By.cssSelector("a[href='" + php + "']"));
   }
 
   public void update() {
@@ -55,7 +57,7 @@ public class ContactHelper extends HelperBase {
     wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
-  public void deleteSelectedContact() {
+  public void deleteSelected() {
     click(By.cssSelector("input[value='Delete']"));
   }
 
@@ -80,23 +82,27 @@ public class ContactHelper extends HelperBase {
     //contactPage();
     selectContactById(contact.getId());
     // try {Thread.sleep(1000);    } catch (Exception e) {     throw new RuntimeException(e);    }
-    deleteSelectedContact();
+    deleteSelected();
     wd.switchTo().alert().accept();
     contactCache = null;
+    contactPage();
   }
 
   public void create(ContactData contact) {
     addNew();
     fill(contact, true);
-    submit("//div[@id='content']/form/input[21]");
+    click(By.cssSelector("input[value='Enter']"));
     contactCache = null;
+    contactPage();
   }
 
   public void modify(ContactData contact) {
-    edit();
+    //try {Thread.sleep(3000);    } catch (Exception e) {     throw new RuntimeException(e);    }
+    edit(contact.getId());
     fill(contact, false);
     update();
     contactCache = null;
+    contactPage();
   }
 
   public void addNew() {
@@ -106,9 +112,7 @@ public class ContactHelper extends HelperBase {
     click(By.linkText("add new"));
   }
 
-
-  
-  public int getContactCount() {
+  public int count() {
     return wd.findElements(By.name("selected[]")).size();
   }
 
@@ -116,6 +120,7 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
     // click(By.name("selected[]"));
   }
+
   public void delete_click() {
     click(By.xpath("//div[@id='content']/form[2]/input[2]"));
   }

@@ -51,6 +51,7 @@ public class GroupHelper extends HelperBase {
     fillGroupForm(group);
     submitGroupCreation();
     groupCache = null;
+    groupPage();
   }
   public void modify(GroupData group) {  //l5_m5: menqetsq parametr
     selectGroupById(group.getId());

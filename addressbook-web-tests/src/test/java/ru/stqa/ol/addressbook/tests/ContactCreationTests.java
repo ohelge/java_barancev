@@ -6,10 +6,8 @@ import ru.stqa.ol.addressbook.model.Contacts;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class ContactCreationTests extends TestBase {
-
 
   @Test (enabled = true)
   public void contactCreation() {
@@ -24,12 +22,27 @@ public class ContactCreationTests extends TestBase {
     assertThat(app.contact().count(), equalTo (before.size() + 1) );
     Contacts after = app.contact().all();
 
-
     contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt() );
 
     assertThat(after, equalTo(before.withAdded(contact)) );
 
   }
 
+  @Test (enabled = true)
+  public void contactBadCreation() {
+    app.goTo().contactPage();
+    Contacts before = app.contact().all();
+    ContactData contact = new ContactData()
+            .withFirstname("1111 ' ");
+    app.contact().create(contact);
+
+    assertThat(app.contact().count(), equalTo (before.size() ) );
+    Contacts after = app.contact().all();
+
+    contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt() );
+
+    assertThat(after, equalTo(before) );
+
+  }
 
 }

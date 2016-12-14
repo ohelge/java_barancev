@@ -9,15 +9,14 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class GroupCreationTests extends TestBase {
 
-  @Test (enabled = false)
+  @Test (enabled = true)
   public void testGroupCreation() {
     app.goTo().groupPage();
-    // Set<GroupData> before = app.group().all();
     Groups before =  app.group().all(); //l5_m6
     GroupData group = new GroupData().withGroupname("Group2");
     app.group().create(group);
-    app.goTo().groupPage();
-    assertThat(app.group().count(), equalTo(before.size() )); //l5_m8 : zamenqem after.size() na bolee bistruu proverku app.group().count()
+
+    assertThat(app.group().count(), equalTo(before.size() +1 )); //l5_m8 : zamenqem after.size() na bolee bistruu proverku app.group().count() i stavim pered zagruzkoi spiska grupp. Eto i est' hashirovanie
     Groups after = app.group().all();
 
     group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());   //l5_m5: prewvawaem potok objektov GrouData v potok Identifikatorov. Anonimnaq funkciq mapToInt g: parametr gruppa, a resultat - identifikator. Berem max i preobrazuem v int
@@ -27,11 +26,10 @@ public class GroupCreationTests extends TestBase {
   @Test
   public void testBadGroupCreation() {
     app.goTo().groupPage();
-    // Set<GroupData> before = app.group().all();
     Groups before =  app.group().all(); //l5_m6
-    GroupData group = new GroupData().withGroupname("Group2"); // Imq s apostrofom NE sozdaetsq dazhe esli poprobovat' sozdat' v prilozhenii
+    GroupData group = new GroupData().withGroupname("1111' "); // Imq s apostrofom NE sozdaetsq dazhe esli poprobovat' sozdat' v prilozhenii
     app.group().create(group);
-    app.goTo().groupPage();
+
     assertThat(app.group().count(), equalTo(before.size() ));
     Groups after = app.group().all();
 
