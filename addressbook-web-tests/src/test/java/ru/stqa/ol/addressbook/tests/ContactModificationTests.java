@@ -39,14 +39,8 @@ public class ContactModificationTests extends TestBase {
             .withEmail("first-name1.last-name1@gmail.com");
     app.contact().modify(contact);
 
-    app.goTo().contactPage();
-    try {
-      Thread.sleep(1000);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    assertThat(app.contact().count(), equalTo(before.size()) );
     Contacts after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size());
 
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     // try { Thread.sleep(5000); } catch (Exception e) { throw new RuntimeException(e); }

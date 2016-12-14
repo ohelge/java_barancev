@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Created by OL A546902 on 2016-12-12.
  */
-public class Groups extends ForwardingSet<GroupData> {
+public class Groups extends ForwardingSet<GroupData> { //google Guava project https://github.com/google/guava/wiki
   private Set<GroupData> delegate;
 
   public Groups(Groups groups) {

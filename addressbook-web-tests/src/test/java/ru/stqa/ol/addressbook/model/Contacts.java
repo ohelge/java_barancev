@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Created by A546902 on 2016-12-12.
  */
-public class Contacts extends ForwardingSet<ContactData> {
+public class Contacts extends ForwardingSet<ContactData> { //google Guava project https://github.com/google/guava/wiki
   private Set<ContactData> delegate;
 
   public Contacts(Contacts contacts) {
