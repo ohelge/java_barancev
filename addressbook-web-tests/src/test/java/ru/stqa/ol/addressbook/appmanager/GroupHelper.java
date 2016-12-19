@@ -35,7 +35,9 @@ public class GroupHelper extends HelperBase {
   }
 
   public void selectGroupById(int id) {   //l5_m5: novii metod
-    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    // wd.findElement(By.cssSelector("input[value='" + id + "']")).click(); //l5_m9:Stroka skleivaetsq iz 3h kuskov. Ili mozhno String.format(), eto ponqtnee:
+    wd.findElement(By.cssSelector(String.format("input[value='%s']", id  ))).click();
+
   }
 
   public void initGroupModification() {

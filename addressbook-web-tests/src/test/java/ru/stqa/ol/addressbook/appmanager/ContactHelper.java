@@ -7,13 +7,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.ol.addressbook.model.ContactData;
 import ru.stqa.ol.addressbook.model.Contacts;
-import ru.stqa.ol.addressbook.model.GroupData;
-import ru.stqa.ol.addressbook.model.Groups;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by OL on 2016-11-03.
@@ -71,9 +66,13 @@ public class ContactHelper extends HelperBase {
     Contacts contactCache = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
-      String name = element.findElements(By.tagName("td")).get(2).getText(); // Vo 2m td nahoditsq "First name"
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+
+      String firstName = cells.get(2).getText(); // Vo 2m td nahoditsq "First name"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
-      contactCache.add(new ContactData().withId(id).withFirstname(name));
+      String[] phones = cells.get(5).getText().split("\n");
+      contactCache.add(new ContactData().withId(id).withFirstname(firstName)
+              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
     }
     return new Contacts(contactCache);
   }
@@ -129,4 +128,37 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
+  public ContactData infoFromEditForm(ContactData contact) {
+    initContactModification(contact.getId());
+    String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData()
+            .withId(contact.getId())
+            .withFirstname(firstname)
+            .withHomePhone(home)
+            .withMobilePhone(mobile)
+            .withWorkPhone(work);
+  }
+
+  private void initContactModification(int id) {
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+    WebElement row = checkbox.findElement(By.xpath("./../..")); // l5_m9: Pervii perehod daet q4eiku tablici, vtoroi- stroku
+    //Nahodim checkbox kontakta i podnimaemsq na 2 urovnq vverh kak i cd.. tut tozhe .. A na4inaem s . eto zna4it 4to poisk na4inaetsq s tekuwego elementa.
+    List<WebElement> cells = row.findElements(By.tagName("td")); //Iwem vse elementi s tegom td
+    cells.get(7).findElement(By.tagName("a")).click();//Berem nuzhnuu q4eiku 7(eto 8i stolbec) i klikaem. Tag "a" zna4it ancor
+    try {Thread.sleep(1000);    } catch (Exception e) {     throw new RuntimeException(e);    }
+
+    // drugie 3 varianta nahozhdeniq ssilki:
+    //String.format() - podstanovka zna4enii vnutr' stroki
+    //wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a", id))).click(); //l5_m9:OBS! v Xpath numeraciq na4inaetsq s 1, a ne s 0.
+    //input[@value='%s'] - nahodim checkbox, /../../ - podnimaemsq na 2 urovnq vverh, td[8]/a - v stroke iwem 8u q4eiku i vnutri etoi q4eiki iwem ssilku (tag a)
+
+    //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click(); //l5_m9: v [] piwem ograni4eniq
+    // Ho4u naiti stroku vnutri kotoroi est' est' checkbox s zadannim identifikatorom. tr- iskat' stroku i v [] piwi lubie ograni4eniq. input[@value='%s']] - vnutri stroki est' input s zadannim elementom value
+
+    //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+    }
 }
