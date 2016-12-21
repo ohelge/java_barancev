@@ -70,7 +70,7 @@ public class ContactHelper extends HelperBase {
 
       String firstName = cells.get(2).getText(); // Vo 2m td nahoditsq "First name"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
-      String[] phones = cells.get(5).getText().split("\n");
+      String[] phones = cells.get(5).getText().split("\n"); //l5_m9-10: OBS! rezhem stroku s pomow'u regex. Tri telefona v odnoi q4eike
       contactCache.add(new ContactData().withId(id).withFirstname(firstName)
               .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
     }

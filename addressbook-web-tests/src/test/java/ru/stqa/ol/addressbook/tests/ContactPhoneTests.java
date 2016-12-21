@@ -18,8 +18,15 @@ public class ContactPhoneTests extends TestBase {
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-    assertThat(contact.getHomePhone(), equalTo(contactInfoFromEditForm.getHomePhone()) );
-    assertThat(contact.getMobilePhone(), equalTo(contactInfoFromEditForm.getMobilePhone()) );
-    assertThat(contact.getWorkPhone(), equalTo(contactInfoFromEditForm.getWorkPhone()) );
+    assertThat(contact.getHomePhone(), equalTo(cleaned(contactInfoFromEditForm.getHomePhone())) );
+    assertThat(contact.getMobilePhone(), equalTo(cleaned(contactInfoFromEditForm.getMobilePhone())) );
+    assertThat(contact.getWorkPhone(), equalTo(cleaned(contactInfoFromEditForm.getWorkPhone())) );
+  }
+
+  public String cleaned(String phone) { // l5_m10: Vibros simvolov +,(,),- i probela iz stroki telefonov. Telefoni: Home="+7(911)", Mobile="22-22", Work="33 33 33"
+    return phone.replaceAll("\\s", "").replaceAll("[-()]",""); //replaceAll- zamena simvolov na simvoli(v nawem slu4ae na pustuu stroku
+    // \\s - zna4it luboi probel'nii simvol(probel, tabulqciq, perenos stroki)
+    // v kvadr skobkah [-()] simvoli kot nado zamenit'/ubrat': -,( i )
+    // nado stavit' "-" v na4ale t.k. [a-z] zna4it zamenit' vse bukvi(minus mezhdu). [-az]: zamenit' -,a,z
   }
 }
