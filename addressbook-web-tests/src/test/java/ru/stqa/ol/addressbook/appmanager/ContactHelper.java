@@ -70,9 +70,15 @@ public class ContactHelper extends HelperBase {
 
       String firstName = cells.get(2).getText(); // Vo 2m td nahoditsq "First name"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
-      String[] phones = cells.get(5).getText().split("\n"); //l5_m9-10: OBS! rezhem stroku s pomow'u regex. Tri telefona v odnoi q4eike
+      //l5_m11 Metod obratnih proverok. Esli ne vse telefoni zapolneni (naprimer 2 iz 3h)
+      String allPhones = cells.get(5).getText();
       contactCache.add(new ContactData().withId(id).withFirstname(firstName)
-              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+                      .withAllPhones(allPhones));  //l5_m11 Metod so strokoi vseh telefonov
+
+      /*l5_m9-10: OBS! rezhem stroku s pomow'u regex. Tri telefona v odnoi q4eike. Rabotaet esli vse tri telefona zapolneni i ne null
+      String[] phones = cells.get(5).getText().split("\n");
+      contactCache.add(new ContactData().withId(id).withFirstname(firstName)
+              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));*/
     }
     return new Contacts(contactCache);
   }

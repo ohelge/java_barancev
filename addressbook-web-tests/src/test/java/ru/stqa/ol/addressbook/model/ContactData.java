@@ -13,7 +13,16 @@ public class ContactData {
   private String homePhone;
   private String mobilePhone;
   private String workPhone;
+  private String allPnones; //l5_m11: dobavili stroku so vsemi tel
 
+  public ContactData withAllPhones(String allPnones) { //l5_m11:Seteter
+    this.allPnones = allPnones;
+    return this;
+  }
+
+  public String getAllPnones() { //l5_m11:Getter
+    return allPnones;
+  }
   public int getId(int id) {
     return id;
   }
@@ -119,6 +128,5 @@ public class ContactData {
             ", firstname='" + firstname + '\'' +
             '}';
   }
-
 
 }
