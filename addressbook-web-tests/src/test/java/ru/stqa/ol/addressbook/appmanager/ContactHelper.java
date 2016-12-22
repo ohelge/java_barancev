@@ -62,18 +62,18 @@ public class ContactHelper extends HelperBase {
     if (contactCache != null) {
       return new Contacts(contactCache);
     }
-
     Contacts contactCache = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));
 
-      String firstName = cells.get(2).getText(); // Vo 2m td nahoditsq "First name"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));  //l4_m8: Preobrazovanie stroki v integer id
-      //l5_m11 Metod obratnih proverok. Esli ne vse telefoni zapolneni (naprimer 2 iz 3h)
-      String allPhones = cells.get(5).getText();
-      contactCache.add(new ContactData().withId(id).withFirstname(firstName)
-                      .withAllPhones(allPhones));  //l5_m11 Metod so strokoi vseh telefonov
+      String firstName = cells.get(2).getText(); // Vo 2m td nahoditsq "First name"
+      String address = cells.get(3).getText();
+      String allEmails = cells.get(4).getText();
+      String allPhones = cells.get(5).getText();//l5_m11 Metod obratnih proverok. Esli ne vse telefoni zapolneni (naprimer 2 iz 3h)
+      contactCache.add(new ContactData().withId(id).withFirstname(firstName).withAddress(address)
+                      .withAllPhones(allPhones).withAllEmails(allEmails));  //l5_m11 Metod so strokoi vseh telefonov
 
       /*l5_m9-10: OBS! rezhem stroku s pomow'u regex. Tri telefona v odnoi q4eike. Rabotaet esli vse tri telefona zapolneni i ne null
       String[] phones = cells.get(5).getText().split("\n");
@@ -134,22 +134,31 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public ContactData infoFromEditForm(ContactData contact) {
+  public ContactData infoFromEditForm(ContactData contact) { // Berem elementi so stranici redaktirovaniq kontakta
     initContactModification(contact.getId());
     String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getAttribute("value");
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+
     wd.navigate().back();
     return new ContactData()
             .withId(contact.getId())
             .withFirstname(firstname)
             .withHomePhone(home)
             .withMobilePhone(mobile)
-            .withWorkPhone(work);
+            .withWorkPhone(work)
+            .withAddress(address)
+            .withEmail(email)
+            .withEmail2(email2)
+            .withEmail3(email3);
   }
 
-  private void initContactModification(int id) {
+  private void initContactModification(int id) { //nahodim ssilku s karandawikom dlq nujnogo id
     WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
     WebElement row = checkbox.findElement(By.xpath("./../..")); // l5_m9: Pervii perehod daet q4eiku tablici, vtoroi- stroku
     //Nahodim checkbox kontakta i podnimaemsq na 2 urovnq vverh kak i cd.. tut tozhe .. A na4inaem s . eto zna4it 4to poisk na4inaetsq s tekuwego elementa.
