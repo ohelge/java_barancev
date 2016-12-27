@@ -27,9 +27,10 @@ public class ContactHelper extends HelperBase {
     type(By.name("firstname"), contactData.getFirstname());
     //type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
+    attach(By.name("photo"), contactData.getPhoto() );
     //type(By.name("nickname"), contactData.getNickname());
     type(By.name("email"), contactData.getEmail());
-    type(By.name("address2"), contactData.getAddress());
+    type(By.name("address"), contactData.getAddress());
 
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).getFirstSelectedOption();

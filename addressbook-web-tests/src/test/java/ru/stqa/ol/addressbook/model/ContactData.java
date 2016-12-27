@@ -1,5 +1,7 @@
 package ru.stqa.ol.addressbook.model;
 
+import java.io.File;
+
 public class ContactData {
 
   private int id = Integer.MAX_VALUE;
@@ -14,6 +16,17 @@ public class ContactData {
   private String mobilePhone;
   private String workPhone;
   private String allEmails;
+
+  public File getPhoto() {
+    return photo;
+  }
+
+  public ContactData withPhoto(File photo) {
+    this.photo = photo;
+    return this;
+  }
+
+  private File photo; //l6_m1
 
   public ContactData withAddress(String address) {
     this.address = address;

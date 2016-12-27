@@ -1,7 +1,8 @@
 package ru.stqa.ol.addressbook.appmanager;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.io.File;
 
 /**
  * Created by A546902 on 2016-11-03.
@@ -13,20 +14,28 @@ public class HelperBase {
   public HelperBase(WebDriver wd) {
     this.wd = wd;
   }
+
   protected void click(By locator) {
     wd.findElement(locator).click();
   }
+
   protected void type(By locator, String text) {
     click(locator);
     if (text != null) { // from video l3_m05-06
       String existingText = wd.findElement(locator).getAttribute("value");
-      if (! text.equals(existingText)) {  //esli ne verno 4to text sovpadaet s uzhe suwestvuuwim. OBS proverka polezna dlq proizvoditel'nosti: Selenium zapolnqet pola posimvol'no
+      if (!text.equals(existingText)) {  //esli ne verno 4to text sovpadaet s uzhe suwestvuuwim. OBS proverka polezna dlq proizvoditel'nosti: Selenium zapolnqet pola posimvol'no
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
       }
     }
-
   }
+
+  protected void attach(By locator, File file) { //l6_m1 : metod kak type no bez click. Nuzhno dlq photo
+    if (file != null) {
+      wd.findElement(locator).sendKeys(file.getAbsolutePath());
+    }
+  }
+
   public boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
@@ -41,7 +50,7 @@ public class HelperBase {
     try {
       wd.findElement(locator);
       return true;
-    } catch(NoSuchElementException ex) {
+    } catch (NoSuchElementException ex) {
       return false;
     }
   }
@@ -54,10 +63,12 @@ public class HelperBase {
     }
     click(By.linkText("groups"));
   }
+
   public void contactPage() {
     if (isElementPresent(By.id("maintable"))) {
       return;
     }
+    try {Thread.sleep(3000);    } catch (Exception e) {     throw new RuntimeException(e);    }
     wd.findElement(By.linkText("home")).click();
   }
 }
