@@ -1,6 +1,5 @@
 package ru.stqa.ol.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.GroupData;
@@ -16,7 +15,7 @@ public class GroupModifiactionTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().groupPage();
     if (!app.group().isThereAGroup()) {  // ili if (app.group().list().size() == 0)
-      app.group().create(new GroupData().withGroupname("Group2") );
+      app.group().create(new GroupData().withName("Group2") );
       try {
         Thread.sleep(2000);
       } catch (Exception e) {
@@ -32,9 +31,9 @@ public class GroupModifiactionTests extends TestBase {
     GroupData modifiedGroup = before.iterator().next(); //l5_m5: vozvrawaem pervii popavwiisq element mnojestva
     GroupData group = new GroupData()
             .withId(modifiedGroup.getId())  //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
-            .withGroupname("Group2")
-            .withGroupheader("Group2 header")
-            .withGroupfooter("Group2 footer");
+            .withName("Group2")
+            .withHeader("Group2 header")
+            .withFooter("Group2 footer");
     app.group().modify(group);
 
     assertEquals(app.group().count(), before.size());

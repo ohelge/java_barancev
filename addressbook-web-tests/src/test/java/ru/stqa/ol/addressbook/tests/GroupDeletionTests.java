@@ -1,6 +1,5 @@
 package ru.stqa.ol.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.GroupData;
@@ -15,7 +14,7 @@ public class GroupDeletionTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().groupPage();
     if (app.group().all().size() == 0) {
-      app.group().create(new GroupData().withGroupname("Group2").withGroupheader("Group2 header").withGroupfooter("Group2 footer"));
+      app.group().create(new GroupData().withName("Group2").withHeader("Group2 header").withFooter("Group2 footer"));
       try {
         Thread.sleep(2000);
       } catch (Exception e) {

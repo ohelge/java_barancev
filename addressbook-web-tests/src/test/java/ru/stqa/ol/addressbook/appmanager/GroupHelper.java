@@ -21,9 +21,9 @@ public class GroupHelper extends HelperBase {
   }
 
   public void fillGroupForm(GroupData groupData) {
-    type(By.name("group_name"), groupData.getGroupname());
-    type(By.name("group_header"), groupData.getGroupheader());
-    type(By.name("group_footer"), groupData.getGroupfooter());
+    type(By.name("group_name"), groupData.getName());
+    type(By.name("group_header"), groupData.getHeader());
+    type(By.name("group_footer"), groupData.getFooter());
   }
 
   public void initGroupCreation() {
@@ -91,7 +91,7 @@ private Groups groupCache = null; // l5_m7 Kewirovanie dobavka v metodi all, del
       String name = element.getText();
       // String id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // l4_m7 novii parametr id is GroupData. Prisvaivaem zna4enie "value"
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  //l4_m8: Preobrazovanie stroki v integer id
-      groupCache.add(new GroupData().withId(id).withGroupname(name));
+      groupCache.add(new GroupData().withId(id).withName(name));
     }
     return new Groups(groupCache);
   }

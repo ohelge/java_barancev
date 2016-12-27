@@ -13,7 +13,7 @@ public class GroupCreationTests extends TestBase {
   public void testGroupCreation() {
     app.goTo().groupPage();
     Groups before =  app.group().all(); //l5_m6
-    GroupData group = new GroupData().withGroupname("Group2");
+    GroupData group = new GroupData().withName("Group2");
     app.group().create(group);
 
     assertThat(app.group().count(), equalTo(before.size() +1 )); //l5_m8 : zamenqem after.size() na bolee bistruu proverku app.group().count() i stavim pered zagruzkoi spiska grupp. Eto i est' hashirovanie
@@ -27,7 +27,7 @@ public class GroupCreationTests extends TestBase {
   public void testBadGroupCreation() {
     app.goTo().groupPage();
     Groups before =  app.group().all(); //l5_m6
-    GroupData group = new GroupData().withGroupname("1111' "); // Imq s apostrofom NE sozdaetsq dazhe esli poprobovat' sozdat' v prilozhenii
+    GroupData group = new GroupData().withName("1111' "); // Imq s apostrofom NE sozdaetsq dazhe esli poprobovat' sozdat' v prilozhenii
     app.group().create(group);
 
     assertThat(app.group().count(), equalTo(before.size() ));

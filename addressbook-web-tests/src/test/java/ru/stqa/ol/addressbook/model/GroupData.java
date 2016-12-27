@@ -17,30 +17,30 @@ public class GroupData {
     return this;
   }
 
-  public GroupData withGroupname(String groupname) {
+  public GroupData withName(String groupname) {
     this.groupname = groupname;
     return this;
   }
 
-  public GroupData withGroupheader(String groupheader) {
+  public GroupData withHeader(String groupheader) {
     this.groupheader = groupheader;
     return this;
   }
 
-  public GroupData withGroupfooter(String groupfooter) {
+  public GroupData withFooter(String groupfooter) {
     this.groupfooter = groupfooter;
     return this;
   }
 
-  public String getGroupname() {
+  public String getName() {
     return groupname;
   }
 
-  public String getGroupheader() {
+  public String getHeader() {
     return groupheader;
   }
 
-  public String getGroupfooter() {
+  public String getFooter() {
     return groupfooter;
   }
 
