@@ -1,8 +1,15 @@
 package ru.stqa.ol.addressbook.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+@XStreamAlias("group") //l6_m6 Annotaciq dlq tag group
+
 public class GroupData {
 
+  @XStreamOmitField //l6_m6 Ne zapisivaem nenuzhnii tag <id> v group.xml
   private int id = Integer.MAX_VALUE; // l4_m8 : ubrali "final" ina4e nel'zq sdelat' Code->Generate->Setter
+
   private String groupname;
   private String groupheader;
   private String groupfooter;
