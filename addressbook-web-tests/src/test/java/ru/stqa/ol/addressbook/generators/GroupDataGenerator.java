@@ -3,6 +3,8 @@ package ru.stqa.ol.addressbook.generators;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 import ru.stqa.ol.addressbook.model.GroupData;
 
@@ -17,7 +19,8 @@ import java.util.List;
  * Created by A546902 on 2016-12-27.
  */
 public class GroupDataGenerator {
-  @Parameter(names = "-c", description = "Group count")  //l6_m3 Jcommander biblioteka iz Maven. Dobavlqem -c, -f v Configuration klassa
+  @Parameter(names = "-c", description = "Group count")
+  //l6_m3 Jcommander biblioteka iz Maven. Dobavlqem -c, -f v Configuration klassa
   public int count;
   @Parameter(names = "-f", description = "Target file")
   public String file;//jcommander ne podderzhivaet raboyu s failami poetomu String file. Preobrazuem v fail potom
@@ -45,11 +48,33 @@ public class GroupDataGenerator {
     List<GroupData> groups = generateGroups(count); // Part1:generaciq dannih
     if (format.equals("scv")) { //l6_m6 proverka na format
       saveAsCSV(groups, new File(file)); // Part2: sohranenie dannih s preobrazovvanim String file v File
-    } else if (format.equals("xml")){
-      saveAsXml(groups, new File(file)) ;
+    } else if (format.equals("xml")) {
+      saveAsXml(groups, new File(file));
+    } else if (format.equals("json")) { //l6_m7
+      saveAsJson(groups, new File(file));
     } else {
       System.out.println("Unrecognised format: not csv or xml but " + "'" + format + "'");
     }
+  }
+
+  private List<GroupData> generateGroups(int count) {// ubiraem static posle sozdaniq metoda run
+    List<GroupData> groups = new ArrayList<GroupData>();
+    for (int i = 0; i < count; i++) {
+      groups.add(new GroupData().withName(String.format("Group %s", i))
+              .withHeader(String.format("header\n %s", i)) //v gfaile json viglqdit: "groupheader": "header\n 0"
+              .withFooter(String.format("footer %s", i)));
+    }
+    return groups;
+  }
+
+  private void saveAsJson(List<GroupData> groups, File file) throws IOException { //l6_m7 gson Object example: https://github.com/google/gson/blob/master/UserGuide.md#TOC-Object-Examples
+    //Gson gson = new Gson();
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create(); //l6_m7 stroim objekt 4tobi fail json viglqdel krasivo a ne v odnu stroku: setPrettyPrinting().
+    // Zatem propuskaem vse polq kot NE pome4eni @Expose (sm. GroupData) : excludeFieldsWithoutExposeAnnotation() https://github.com/google/gson/blob/master/UserGuide.md#TOC-Gson-s-Expose
+    String json = gson.toJson(groups);
+    Writer writer = new FileWriter(file); //kak ran'we delaem writer
+    writer.write(json); // Ne zabit' pomenqt' imq faila v Configuration
+    writer.close();
   }
 
   private void saveAsXml(List<GroupData> groups, File file) throws IOException { //l6_m6 pervii parammetr eto spisok grupp, 2i eto fail v kot nado sohranqt'
@@ -60,16 +85,6 @@ public class GroupDataGenerator {
     Writer writer = new FileWriter(file); //kak ran'we delaem writer
     writer.write(xml); // Ne zabit' pomenqt' imq faila v Configuration
     writer.close();
-  }
-
-  private List<GroupData> generateGroups(int count) {// ubiraem static posle sozdaniq metoda run
-    List<GroupData> groups = new ArrayList<GroupData>();
-    for (int i = 0; i < count; i++) {
-      groups.add(new GroupData().withName(String.format("Group %s", i))
-              .withHeader(String.format("header %s", i))
-              .withFooter(String.format("footer %s", i)));
-    }
-    return groups;
   }
 
   private void saveAsCSV(List<GroupData> groups, File file) throws IOException { // ubiraem static posle sozdaniq metoda run

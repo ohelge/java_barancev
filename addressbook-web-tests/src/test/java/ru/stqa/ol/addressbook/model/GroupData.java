@@ -1,5 +1,6 @@
 package ru.stqa.ol.addressbook.model;
 
+import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -9,9 +10,11 @@ public class GroupData {
 
   @XStreamOmitField //l6_m6 Ne zapisivaem nenuzhnii tag <id> v group.xml
   private int id = Integer.MAX_VALUE; // l4_m8 : ubrali "final" ina4e nel'zq sdelat' Code->Generate->Setter
-
+  @Expose //l6_m7 gson Pome4aem polq kot DOLZHNI bit' selializovani, a ne te kot dolzhni bit' propuweni kak v XStreamOmitField. https://github.com/google/gson/blob/master/UserGuide.md#TOC-Gson-s-Expose
   private String groupname;
+  @Expose
   private String groupheader;
+  @Expose
   private String groupfooter;
 
   public int getId() {
