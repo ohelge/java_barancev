@@ -20,7 +20,7 @@ public class GroupCreationTests extends TestBase {
 
   //l6_m6 Iterator massiva objektov
   @DataProvider // Ideq razdeleniq dannih ot testa
-  public Iterator<Object[]> validGroupsFromXml() throws IOException {
+  public Iterator<Object[]> validGroupsFromXml() throws IOException { //dlq XML
     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")));
     String line = reader.readLine();
     String xml = ""; //l6_m6 peremennaq v kot 4itaem soderzhimoe faila
@@ -56,7 +56,7 @@ public class GroupCreationTests extends TestBase {
   @Test(enabled = true, dataProvider = "validGroupsFromJson")
   //l6_m7 Parametr dataProvider ukazat' po imeni. Menqem Xml na Json
   public void testGroupCreation(GroupData group) { //l6_m4 Udobnee peredavat' dannie kak 1 objekt: menqem String name, String header, String footer na GroupData group.
-    // Menqem v @DataProvider ne massiv strok na massiv objektov tipa GroupData, massiv budet iz odnogo elementa
+    // Menqem v @DataProvider massiv strok na massiv objektov tipa GroupData, massiv budet iz odnogo elementa
     app.goTo().groupPage();
     Groups before = app.group().all(); //l5_m6
     app.group().create(group);

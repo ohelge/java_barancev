@@ -51,7 +51,9 @@ public class ContactDataGenerator {
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactData().withFirstname(String.format("FIRST name %s", i)).withLastname(String.format("LAST name %s", i))
               .withAddress(String.format("ADDRESS\n %s", i)) //v gfaile json viglqdit: "groupheader": "header\n 0"
-              .withEmail(String.format("first.last@foo.ru %s", i)));
+              .withEmail(String.format("first"+ "%s" + ".last" + "%s" + "@foo.ru", i,i))
+              .withPhotoFileName(new File("src/test/resources/DoubleOL_foto2.jpg").getAbsolutePath() ) );
+              //.withPhoto(new File("src/test/resources/DoubleOL_foto2.jpg") )) ;
     }
     return contacts;
   }

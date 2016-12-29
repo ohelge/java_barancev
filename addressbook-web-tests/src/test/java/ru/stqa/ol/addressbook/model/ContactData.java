@@ -22,17 +22,26 @@ public class ContactData {
   private String mobilePhone;
   private String workPhone;
   private String allEmails;
+  private File photo; //l6_m1
+  @Expose
+  private String photoFileName;
 
   public File getPhoto() {
     return photo;
   }
 
+  public String getPhotoFileName() {
+    return photoFileName;
+  }
+
+  public ContactData withPhotoFileName(String photoFileName) {
+    this.photoFileName = photoFileName;
+    return this;
+  }
   public ContactData withPhoto(File photo) {
     this.photo = photo;
     return this;
   }
-
-  private File photo; //l6_m1
 
   public ContactData withAddress(String address) {
     this.address = address;

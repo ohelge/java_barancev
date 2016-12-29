@@ -29,10 +29,9 @@ public class HelperBase {
       }
     }
   }
-
-  protected void attach(By locator, File file) { //l6_m1 : metod kak type no bez click. Nuzhno dlq photo
+  protected void attach(By locator, File file ) { //l6_m1 : metod kak type no bez click. Nuzhno dlq photo
     if (file != null) {
-      wd.findElement(locator).sendKeys(file.getAbsolutePath());
+    wd.findElement(locator).sendKeys(file.getAbsolutePath());
     }
   }
 
@@ -68,7 +67,7 @@ public class HelperBase {
     if (isElementPresent(By.id("maintable"))) {
       return;
     }
-    try {Thread.sleep(3000);    } catch (Exception e) {     throw new RuntimeException(e);    }
+    //try {Thread.sleep(3000);    } catch (Exception e) {     throw new RuntimeException(e);    }
     wd.findElement(By.linkText("home")).click();
   }
 }
