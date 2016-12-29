@@ -1,0 +1,20 @@
+[
+  {
+    "firstname": "FIRST name 0",
+    "lastname": "LAST name 0",
+    "email": "first.last@foo.ru 0",
+    "address": "ADDRESS\n 0"
+  },
+  {
+    "firstname": "FIRST name 1",
+    "lastname": "LAST name 1",
+    "email": "first.last@foo.ru 1",
+    "address": "ADDRESS\n 1"
+  },
+  {
+    "firstname": "FIRST name 2",
+    "lastname": "LAST name 2",
+    "email": "first.last@foo.ru 2",
+    "address": "ADDRESS\n 2"
+  }
+]

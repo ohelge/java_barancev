@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-@XStreamAlias("group") //l6_m6 Annotaciq dlq tag group
+@XStreamAlias("group") //l6_m6 Annotaciq dlq xml tag group
 
 public class GroupData {
 

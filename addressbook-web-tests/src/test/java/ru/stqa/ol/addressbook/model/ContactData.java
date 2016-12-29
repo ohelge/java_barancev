@@ -1,15 +1,21 @@
 package ru.stqa.ol.addressbook.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.File;
 
 public class ContactData {
 
   private int id = Integer.MAX_VALUE;
+  @Expose
   private String firstname;
+  @Expose
   private String lastname;
+  @Expose
   private String email;
   private String email2;
   private String email3;
+  @Expose
   private String address;
   private String allPnones; //l5_m11: dobavili stroku so vsemi tel
   private String homePhone;
