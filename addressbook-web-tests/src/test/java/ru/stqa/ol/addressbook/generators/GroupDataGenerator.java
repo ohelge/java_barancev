@@ -72,9 +72,10 @@ public class GroupDataGenerator {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create(); //l6_m7 stroim objekt 4tobi fail json viglqdel krasivo a ne v odnu stroku: setPrettyPrinting().
     // Zatem propuskaem vse polq kot NE pome4eni @Expose (sm. GroupData) : excludeFieldsWithoutExposeAnnotation() https://github.com/google/gson/blob/master/UserGuide.md#TOC-Gson-s-Expose
     String json = gson.toJson(groups);
-    Writer writer = new FileWriter(file); //kak ran'we delaem writer
-    writer.write(json); // Ne zabit' pomenqt' imq faila v Configuration
-    writer.close();
+    try (Writer writer = new FileWriter(file)) { //l6_m8try umeet avtomati4eski zakrivat' faili. V () piwem tu 4ast' v kot inicializiruet'q writer. v {} ego mozhno ispol'zovat'. A zakrivat' (writer.close()) ne obqzatel'no
+      writer.write(json); // Ne zabit' pomenqt' imq faila v Configuration
+    }
+
   }
 
   private void saveAsXml(List<GroupData> groups, File file) throws IOException { //l6_m6 pervii parammetr eto spisok grupp, 2i eto fail v kot nado sohranqt'
@@ -82,17 +83,17 @@ public class GroupDataGenerator {
     // xstream.alias("group", GroupData.class); // nastroika xstream 4tobi izmenit' tag <ru.stqa.ol.addressbook.model.GroupData>: dlq dannih tipa GroupData ispol'zovat' tag "group" http://x-stream.github.io/tutorial.html
     xstream.processAnnotations(GroupData.class); // vmesto viweukazannogo mozhno ukazat' annotacii v GroupDatam, smotri GroupData. Dlq klassa GroupData nado 4itat' podskazki/annotacii
     String xml = xstream.toXML(groups); // http://x-stream.github.io/tutorial.html
-    Writer writer = new FileWriter(file); //kak ran'we delaem writer
-    writer.write(xml); // Ne zabit' pomenqt' imq faila v Configuration
-    writer.close();
+    try (Writer writer = new FileWriter(file)) { //l6_m8 ispol'zuem try sm. saveAsJson
+      writer.write(xml); // Ne zabit' pomenqt' imq faila v Configuration
+    }
   }
 
   private void saveAsCSV(List<GroupData> groups, File file) throws IOException { // ubiraem static posle sozdaniq metoda run
     System.out.println(new File(".").getAbsolutePath());//l6_m2 Rabo4aq dir ne takaq kak v testah, a tekuwaq dir projekta C:\Devel\java_barancev\. Menqem Working dir v nastroikah class GroupDataGenerator
-    Writer writer = new FileWriter(file);
-    for (GroupData group : groups) {
-      writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
+    try (Writer writer = new FileWriter(file)) { //l6_m8 ispol'zuem try sm. saveAsJson
+      for (GroupData group : groups) {
+        writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
+      }
     }
-    writer.close();
   }
 }

@@ -63,9 +63,9 @@ public class ContactDataGenerator {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create(); //l6_m7 stroim objekt 4tobi fail json viglqdel krasivo a ne v odnu stroku: setPrettyPrinting().
     // Zatem propuskaem vse polq kot NE pome4eni @Expose (sm. ContactData) : excludeFieldsWithoutExposeAnnotation() https://github.com/google/gson/blob/master/UserGuide.md#TOC-Gson-s-Expose
     String json = gson.toJson(contacts);
-    Writer writer = new FileWriter(file); //kak ran'we delaem writer
-    writer.write(json); // Ne zabit' pomenqt' imq faila v Configuration
-    writer.close();
+    try ( Writer writer = new FileWriter(file)) { ////l6_m8 ispol'zuem try sm. GroupDataGenerator
+      writer.write(json); // Ne zabit' pomenqt' imq faila v Configuration
+    }
   }
 
 }

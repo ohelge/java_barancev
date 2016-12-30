@@ -29,8 +29,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("lastname"), contactData.getLastname());
     //attach(By.name("photo"), contactData.getPhoto() );
     wd.findElement(By.name("photo")).sendKeys(contactData.getPhotoFileName()); // Dla zadaniq 15 vvel getPhotoFileName v ContactData. Sgeneril eto v json file s absolutnim putem
-    try {Thread.sleep(1000);    } catch (Exception e) {     throw new RuntimeException(e);    }
-    //type(By.name("nickname"), contactData.getNickname());
+    //try {Thread.sleep(1000);    } catch (Exception e) {     throw new RuntimeException(e);    }
     type(By.name("email"), contactData.getEmail());
     type(By.name("address"), contactData.getAddress());
 

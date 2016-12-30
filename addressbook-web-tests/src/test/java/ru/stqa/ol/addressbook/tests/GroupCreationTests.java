@@ -21,36 +21,39 @@ public class GroupCreationTests extends TestBase {
   //l6_m6 Iterator massiva objektov
   @DataProvider // Ideq razdeleniq dannih ot testa
   public Iterator<Object[]> validGroupsFromXml() throws IOException { //dlq XML
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")));
-    String line = reader.readLine();
-    String xml = ""; //l6_m6 peremennaq v kot 4itaem soderzhimoe faila
-    while (line != null) {
-      xml += line;  //l6_m6
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")))) { //l6_m8 ispol'zuem try sm. GroupDataGenerator
+      String line = reader.readLine();
+      String xml = ""; //l6_m6 peremennaq v kot 4itaem soderzhimoe faila
+      while (line != null) {
+        xml += line;  //l6_m6
+        line = reader.readLine();
+      }
+      XStream xStream = new XStream(); //l6_m6
+      xStream.processAnnotations(GroupData.class); //l6_m6
+      List<GroupData> groups = (List<GroupData>) xStream.fromXML(xml); //l6_m6 List<GroupData>) -eto privedenie tipa. http://x-stream.github.io/tutorial.html Deserializing an object back from XML
+      return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator(); //l6_m6 k kazhdomy obektu nuzhno primenit' funkciu kot etot obekt tipa GrpoupData zavernet v massiv kot sostoit iz odnogo etogo objekta.
+      // Dalee collect() sozdaet iz potoka spisok. i u polu4ivwegosq spiska berem iterator. Ego i nuzhno vozvrawat'
     }
-    XStream xStream = new XStream(); //l6_m6
-    xStream.processAnnotations(GroupData.class); //l6_m6
-    List<GroupData> groups = (List<GroupData>) xStream.fromXML(xml); //l6_m6 List<GroupData>) -eto privedenie tipa. http://x-stream.github.io/tutorial.html Deserializing an object back from XML
-    return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator(); //l6_m6 k kazhdomy obektu nuzhno primenit' funkciu kot etot obekt tipa GrpoupData zavernet v massiv kot sostoit iz odnogo etogo objekta.
-    // Dalee collect() sozdaet iz potoka spisok. i u polu4ivwegosq spiska berem iterator. Ego i nuzhno vozvrawat'
   }
 
   @DataProvider // Ideq razdeleniq dannih ot testa
   public Iterator<Object[]> validGroupsFromJson() throws IOException { //l6_m7 novii DataProvider dlq Json
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
-    String line = reader.readLine();
-    String json = ""; //l6_m7 peremennaq v kot 4itaem soderzhimoe faila
-    while (line != null) {
-      json += line;
-      line = reader.readLine();
-    }
-    Gson gson = new Gson(); //l6_m7
-    List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {}.getType()); //l6_m7 Deserialisation v gson: 4itaem vse soderzhimoe faila v peremennyu tipa String(json) i potom ee obrabativaem. Vtoroi parametr-tip dannih kot serializyut'sq
-    // v Java nel'zq napisat' vtorim parametrom (json, List<GroupData>.class) t.k. so spiskami deserializaciq ne prohodit. Esli bi bil odin objekt to mozhno: (json, GroupData.class).
-    // No u nas spisok objektov, poetomu delaem slozhnie deistviq: new TypeToken<List<GroupData>>() {}.getType() kot po suti zna4it List<GroupData>.class
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")))) { //l6_m8 ispol'zuem try sm. GroupDataGenerator
+      String line = reader.readLine();
+      String json = ""; //l6_m7 peremennaq v kot 4itaem soderzhimoe faila
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson(); //l6_m7
+      List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
+      }.getType()); //l6_m7 Deserialisation v gson: 4itaem vse soderzhimoe faila v peremennyu tipa String(json) i potom ee obrabativaem. Vtoroi parametr-tip dannih kot serializyut'sq
+      // v Java nel'zq napisat' vtorim parametrom (json, List<GroupData>.class) t.k. so spiskami deserializaciq ne prohodit. Esli bi bil odin objekt to mozhno: (json, GroupData.class).
+      // No u nas spisok objektov, poetomu delaem slozhnie deistviq: new TypeToken<List<GroupData>>() {}.getType() kot po suti zna4it List<GroupData>.class
 
-    return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator(); //l6_m6 k kazhdomy obektu nuzhno primenit' funkciu kot etot obekt tipa GrpoupData zavernet v massiv kot sostoit iz odnogo etogo objekta.
-    // Dalee collect() sozdaet iz potoka spisok. i u polu4ivwegosq spiska berem iterator. Ego i nuzhno vozvrawat'
+      return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator(); //l6_m6 k kazhdomy obektu nuzhno primenit' funkciu kot etot obekt tipa GrpoupData zavernet v massiv kot sostoit iz odnogo etogo objekta.
+      // Dalee collect() sozdaet iz potoka spisok. i u polu4ivwegosq spiska berem iterator. Ego i nuzhno vozvrawat'
+    }
   }
 
   @Test(enabled = true, dataProvider = "validGroupsFromJson")
@@ -70,7 +73,7 @@ public class GroupCreationTests extends TestBase {
   }
 
 
-  @Test (enabled = false)
+  @Test(enabled = false)
   public void testBadGroupCreation() {
     app.goTo().groupPage();
     Groups before = app.group().all(); //l5_m6

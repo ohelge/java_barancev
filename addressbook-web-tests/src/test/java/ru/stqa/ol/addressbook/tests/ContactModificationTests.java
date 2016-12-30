@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.ContactData;
 import ru.stqa.ol.addressbook.model.Contacts;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -36,7 +38,8 @@ public class ContactModificationTests extends TestBase {
             .withId(modifiedContact.getId())
             .withFirstname("First name1")
             .withLastname("Last name1")
-            .withEmail("first-name1.last-name1@gmail.com");
+            .withEmail("first-name1.last-name1@gmail.com")
+            .withPhotoFileName(new File("src\\test\\resources\\DoubleOL_foto2.jpg").getAbsolutePath());
     app.contact().modify(contact);
 
     assertThat(app.contact().count(), equalTo(before.size()) );

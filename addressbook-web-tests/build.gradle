@@ -13,3 +13,22 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0' // l6_m7
 
 }
+
+/*
+test {
+    // useTestNG(); //l6_m9 Esli zapuskat' iz cmd ">gradlew test" to on zapustit vse testi s ispol'z TestNG ina4e zapuskaet Junit
+    useTestNG() {
+        suites 'src/test/resources/testNG.xml' //No mi ne hotim zapuskat' vse, a ispol'zovat' konfiguracionnii nabor iz testng.xml. Dlq perezapuska piwem >gradlew cleanTest test
+    }
+}*/
+
+task testGroups(type: Test) { //l6_m9 4tobi zapuskat' testi na vibor piwem task. Zapusk 
+    useTestNG() {
+        suites 'src/test/resources/testng-groups.xml';
+    }
+}
+task testContacts(type: Test) { //l6_m9 4tobi zapuskat' testi na vibor piwem task
+    useTestNG() {
+        suites 'src/test/resources/testng-contacts.xml';
+    }
+}
