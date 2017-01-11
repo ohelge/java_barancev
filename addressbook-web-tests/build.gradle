@@ -26,7 +26,8 @@ task testGroups(type: Test) { //l6_m9 4tobi zapuskat' testi na vibor piwem task.
     useTestNG() {
         suites 'src/test/resources/testng-groups.xml';
     }
-    if (project.hasProperty('browser')) { //l6_m10 4tobi zapuskat' bez parametra -P, togda beretsq browser po default. sm. TestBase: System.getProperty("browser", BrowserType.CHROME)
+    if (project.hasProperty('browser')) { //l6_m10 4tobi zapuskat' bez parametra -P, togda beretsq browser po default. sm. TestBase: System.getProperty("browser", BrowserType.CHROME).
+        //OBS Smotri spisok imen browserov v BroserType klasse. Dlq IE zapusk: -Pbrowser="internet explorer"
         systemProperty 'browser', "${browser}"
         //l6_m10 pri zapuske peredaem browser -P: >gradlew -Pbrowser=chrome testContacts. ${browser} -eto sistemnoe svoistvo sborwika. Podstanovki v groovy/gradle vipolnqutsq tol'ko iz dvoinih ""
     }

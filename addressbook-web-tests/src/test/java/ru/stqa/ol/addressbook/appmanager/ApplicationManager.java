@@ -20,16 +20,14 @@ public class ApplicationManager {
 
   private final Properties properties; //l6_m10
   private WebDriver wd;
-
-  private NavigationHelper navigationHelper;
   private ContactHelper contactHelper;
   private GroupHelper groupHelper;
   private SessionHelper sessionHelper;
   private String browser;
+  private LoginData loginData;
 
   public ApplicationManager(String browser) throws IOException {
     this.browser = browser;
-
     properties = new Properties();  //l6_m10 sozddaem objekt tipa Properties v konstruktore, a ostal'noe sm. nizhe
 
   }
@@ -40,7 +38,7 @@ public class ApplicationManager {
     //System.setProperty("webdriver.gecko.driver", marionetteDriverLocation);
 
     String target = System.getProperty("target", "local");//l6_m10 "local" -defoltnoe zna4enie dlq sistemnogo svoistva target (sm. build.gragle)
-    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties"), target))); //l6_m10 zagruzhaem properties s reader. target podstavlqetsq vmesto %s
+    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target)))); //l6_m10 zagruzhaem properties s reader. target podstavlqetsq vmesto %s
 
     if (browser.equals (BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
@@ -55,10 +53,9 @@ public class ApplicationManager {
     wd.get(properties.getProperty("web_baseUrl")); //l6_m10 Parametrizuem url. sm. file local.properties
     contactHelper = new ContactHelper(wd);
     groupHelper = new GroupHelper(wd);
-    navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
     //sessionHelper.login(new LoginData("admin", "secret"));
-    sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword") ); //l6_m10
+    sessionHelper.login(new LoginData(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"))); //l6_m10 Parametrizuem login/pass sm. file local.properties
   }
 
   public void stop() {
@@ -73,7 +70,7 @@ public class ApplicationManager {
     return contactHelper;
   }
 
-  public NavigationHelper goTo() {
-    return navigationHelper;
+  public SessionHelper goTo() {
+    return sessionHelper;
   }
 }
