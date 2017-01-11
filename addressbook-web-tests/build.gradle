@@ -8,9 +8,10 @@ dependencies {
     compile 'org.seleniumhq.selenium:selenium-java:2.53.1'
     //compile 'org.seleniumhq.selenium:selenium-java:3.0.1'
     compile 'org.hamcrest:java-hamcrest:2.0.0.0'
-    compile 'com.beust:jcommander:1.48' //l6_m3
-    compile 'com.thoughtworks.xstream:xstream:1.4.9' //l6_m4
-    compile 'com.google.code.gson:gson:2.8.0' // l6_m7
+    compile 'com.beust:jcommander:1.48' //l6_m3 Analiz opcii komandnoi stroki
+    compile 'com.thoughtworks.xstream:xstream:1.4.9' //l6_m4 Dlq raboti s failami xml formata
+    compile 'com.google.code.gson:gson:2.8.0' // l6_m7 Dlq raboti s failami json formata
+    compile 'ch.qos.logback:logback-classic:1.1.8' //l6_m11 Logback, loging. OBS! v Maven repizitorii vibiraem "logback-classic". Sozdaem fail logback.xml s takim imenem kak prinqto v Logback biblioteke
 
 }
 

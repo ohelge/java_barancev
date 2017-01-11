@@ -1,0 +1,28 @@
+<configuration>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>  <!--http://logback.qos.ch/manual/appenders.html#uniquelyNamed  Dobavlqem peremennyu bySecond v imq faila, sm nizhe -->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> <!-- OBS. ukazano absolutnoe vremq  -->
+        </encoder>
+    </appender>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.FileAppender"> <!-- http://logback.qos.ch/manual/appenders.html#FileAppender -->
+        <file>logs/test-${bySecond}.log</file> <!--sohranqem v kataloge logs -->
+        <!-- <append>true</append>  novie dannie dopisivautsq v fail -->
+
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern> <!-- OBS. ukazano otnositel'noe vremq  -->
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="FILE"/> <!-- http://logback.qos.ch/manual/appenders.html#FileAppender -->
+    </root>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

@@ -3,6 +3,7 @@ package ru.stqa.ol.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.ol.addressbook.model.GroupData;
@@ -11,6 +12,7 @@ import ru.stqa.ol.addressbook.model.Groups;
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -60,6 +62,10 @@ public class GroupCreationTests extends TestBase {
   //l6_m7 Parametr dataProvider ukazat' po imeni. Menqem Xml na Json
   public void testGroupCreation(GroupData group) { //l6_m4 Udobnee peredavat' dannie kak 1 objekt: menqem String name, String header, String footer na GroupData group.
     // Menqem v @DataProvider massiv strok na massiv objektov tipa GroupData, massiv budet iz odnogo elementa
+    // org.slf4j.Logger logger = LoggerFactory.getLogger(GroupCreationTests.class); //l6_m11 OBS. berem Logger iz paketa org.slf4j. Parametr getLogger- klass s kot budet associirovat'sq logger
+    //perenosim logger v TestBase
+    // logger.info("Start test testGroupCreation"); //l6_m11: piwem v na4alo i konec. Sozdaem fail logback.xml s takim imenem kak prinqto v Logback biblioteke.
+    //l6_m11 4tobi ne zasorqt' testi mozhno napisat' v TestBase @BeforeMethod i @AfterMethod
     app.goTo().groupPage();
     Groups before = app.group().all(); //l5_m6
     app.group().create(group);
@@ -69,7 +75,7 @@ public class GroupCreationTests extends TestBase {
 
     group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());   //l5_m5: prewvawaem potok objektov GrouData v potok Identifikatorov. Anonimnaq funkciq mapToInt g: parametr gruppa, a resultat - identifikator. Berem max i preobrazuem v int
     assertThat(after, equalTo(before.withAdded(group))); // MatcherAssert.assertThat(..) Alt+Enter -> "Add static import"
-
+    // logger.info("Stop test testGroupCreation"); l6_m11 Perenosim v TestBase
   }
 
 
