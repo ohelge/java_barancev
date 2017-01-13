@@ -12,7 +12,7 @@ dependencies {
     compile 'com.thoughtworks.xstream:xstream:1.4.9' //l6_m4 Dlq raboti s failami xml formata
     compile 'com.google.code.gson:gson:2.8.0' // l6_m7 Dlq raboti s failami json formata
     compile 'ch.qos.logback:logback-classic:1.1.8' //l6_m11 Logback, loging. OBS! v Maven repizitorii vibiraem "logback-classic". Sozdaem fail logback.xml s takim imenem kak prinqto v Logback biblioteke
-
+    compile 'mysql:mysql-connector-java:6.0.5' //l7_m1 MySQL ConnectorJ
 }
 
 /*

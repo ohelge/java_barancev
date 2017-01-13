@@ -13,3 +13,5 @@ gradle-app.setting
 *.log
 *.jpg
 *.csv
+*.json
+addressbook-web-tests/src/test/resources/groups.csv
