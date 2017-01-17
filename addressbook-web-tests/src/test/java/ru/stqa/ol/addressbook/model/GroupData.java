@@ -3,18 +3,35 @@ package ru.stqa.ol.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @XStreamAlias("group") //l6_m6 Annotaciq dlq xml tag group
-
+@Entity //l7_m2 dlq zapuska HbConnectionTest nado sopostavi' klass i imq tablici
+@Table (name = "group_list") //l7_m2 nuzna annotacia t.k. objekt naz "groupData", a tablica "group_list"
 public class GroupData {
 
   @XStreamOmitField //l6_m6 Ne zapisivaem nenuzhnii tag <id> v group.xml
+  @Id
+  @Column (name = "group_id") //l7_m2 nuzna annotacia t.k. atribut naz "id", a stolbec "group_id"
   private int id = Integer.MAX_VALUE; // l4_m8 : ubrali "final" ina4e nel'zq sdelat' Code->Generate->Setter
+
   @Expose //l6_m7 gson Pome4aem polq kot DOLZHNI bit' selializovani, a ne te kot dolzhni bit' propuweni kak v XStreamOmitField. https://github.com/google/gson/blob/master/UserGuide.md#TOC-Gson-s-Expose
+  @Column(name = "group_name") //l7_m2 imq privqzivaetsq k stolbcu "group_name"
   private String groupname;
+
   @Expose
+  @Column (name = "group_header") //l7_m2 analogi4no s header,footer
+  @Type(type = "text") //bez etoj annotacii test HbConnectionTest padaet iz-za nesovpadeniq tipov
   private String groupheader;
+
   @Expose
+  @Column (name = "group_footer") //l7_m2 analogi4no s header,footer
+  @Type(type = "text") //bez etoj annotacii test HbConnectionTest padaet iz-za nesovpadeniq tipov
   private String groupfooter;
 
   public int getId() {

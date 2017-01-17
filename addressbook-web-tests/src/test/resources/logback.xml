@@ -2,6 +2,10 @@
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>  <!--http://logback.qos.ch/manual/appenders.html#uniquelyNamed  Dobavlqem peremennyu bySecond v imq faila, sm nizhe -->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- l7_m2: Filter tag: uroven' wuma (vivod na panel' soobwenii urovnq INFO/WARN etc. ili viwe) http://logback.qos.ch/manual/filters.html#thresholdFilter  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> <!-- OBS. ukazano absolutnoe vremq  -->
         </encoder>
@@ -11,7 +15,9 @@
               class="ch.qos.logback.core.FileAppender"> <!-- http://logback.qos.ch/manual/appenders.html#FileAppender -->
         <file>logs/test-${bySecond}.log</file> <!--sohranqem v kataloge logs -->
         <!-- <append>true</append>  novie dannie dopisivautsq v fail -->
-
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
             <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern> <!-- OBS. ukazano otnositel'noe vremq  -->
         </encoder>

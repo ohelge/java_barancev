@@ -9,7 +9,7 @@ import java.sql.*;
 /**
  * Created by A546902 on 2017-01-12.
  */
-public class DbConnecionTest { //l7_m1 new Class
+public class DbConnecionTest { //l7_m1 new Class. Ne nado nasledovat' TestBase t.k. browser ne trebuetsq
 
   @Test
   public void testDbConnecion() { //l7_m1 Primer iz https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-usagenotes-connect-drivermanager.html
@@ -31,6 +31,7 @@ public class DbConnecionTest { //l7_m1 new Class
       resultSet.close(); // nado zakrit'
       st.close();
       conn.close();
+
       System.out.println(groups);
 
     } catch (SQLException ex) {
