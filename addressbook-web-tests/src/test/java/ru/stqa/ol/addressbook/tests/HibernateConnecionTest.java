@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ru.stqa.ol.addressbook.model.ContactData;
 import ru.stqa.ol.addressbook.model.GroupData;
 
 import java.util.List;
@@ -37,9 +38,13 @@ public class HibernateConnecionTest { //l7_m1 new Class. Ne nado nasledovat' Tes
   public void testHbConnection () {//l7_m2 sna4ala nado sozdat' config file sm. http://docs.jboss.org/hibernate/orm/5.2/quickstart/html_single/#tutorial-native. Ska4ivaem hibernate-tutorials.zip i v papke Annotation/src/test/resources berem hibernate.cfg.xml
     Session session = sessionFactory.openSession();//l7_m2 s.Example 6 " Obtaining a list of entities" iz http://docs.jboss.org/hibernate/orm/5.2/quickstart/html_single/#hibernate-gsg-tutorial-basic-test
     session.beginTransaction();
-    List<GroupData> result = session.createQuery( "from GroupData" ).list();//l7_m2 menqem zapros k bd. Event zamenqem na GroupData.OBS. qzik zaprosom ne SQL, a OQL(object query lang)!Vozvrawaetsq spisok obektov tipa GroupData
-    for ( GroupData group : result ) { //l7_m2 OBS vmesto "Event" iz primera budet GroupData. Idem v GroupData i dobavlqem annotaciu @Entity..
+    /*List<GroupData> resultGroup = session.createQuery( "from GroupData" ).list();//l7_m2 menqem zapros k bd. Event zamenqem na GroupData.OBS. qzik zaprosom ne SQL, a OQL(object query lang)!Vozvrawaetsq spisok obektov tipa GroupData
+    for ( GroupData group : resultGroup ) { //l7_m2 OBS vmesto "Event" iz primera budet GroupData. Idem v GroupData i dobavlqem annotaciu @Entity..
       System.out.println( group );
+    }*/
+    List<ContactData> resultContact = session.createQuery( "from ContactData where deprecated = '0000-00-00'" ).list();//l7_m3 menqem zapros na ContactData)!Vozvrawaetsq spisok obektov tipa ContactData
+    for ( ContactData contact : resultContact ) { //l7_m2 OBS vmesto "Event" iz primera budet GroupData. Idem v GroupData i dobavlqem annotaciu @Entity..
+      System.out.println( contact ); //l7_m3 OBS!v baze mozhet bit' nogo kontaktov a v webe men'we: v webe vidni kontakti u kogo pole "depricated" = "0000-00-00 00:00:00" data udaleniq. Sm viwe.
     }
     session.getTransaction().commit();
     session.close();

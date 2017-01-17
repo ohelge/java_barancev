@@ -1,34 +1,60 @@
 package ru.stqa.ol.addressbook.model;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
+@Entity //l7_m2 dlq zapuska HbConnectionTest nado sopostavi' klass i imq tablici
+@Table(name = "addressbook")
 public class ContactData {
-
+  @Id
+  @Column(name = "id") // Mozhno ne ukazivat' @Column t.k. kolonka sovpadaet s peremennoi
   private int id = Integer.MAX_VALUE;
-  @Expose
-  private String firstname;
-  @Expose
-  private String lastname;
-  @Expose
-  private String email;
-  private String email2;
-  private String email3;
-  @Expose
-  private String address;
-  private String allPnones; //l5_m11: dobavili stroku so vsemi tel
-  private String homePhone;
-  private String mobilePhone;
-  private String workPhone;
-  private String allEmails;
-  private File photo; //l6_m1
-  @Expose
-  private String photoFileName;
 
-  public File getPhoto() {
-    return photo;
-  }
+  @Expose
+  @Column(name = "firstname") //l7_m3 Mozhno  ne ukazivat' t.k. kolonka sovpadaet s peremennoi
+  private String firstname;
+
+  @Expose
+  @Column(name = "lastname") //l7_m3 Mozhno  ne ukazivat' t.k. kolonka sovpadaet s peremennoi
+  private String lastname;
+
+  @Expose
+  @Transient
+  private String email;
+  @Transient
+  private String email2;
+  @Transient
+  private String email3;
+
+  @Expose
+  @Type(type = "text")
+  private String address;
+
+  @Transient //l7_m3 Transient, 4tobi pole ne izvlekaetsq iz bd
+  private String allPnones; //l5_m11: dobavili stroku so vsemi tel
+
+  @Column(name = "home")
+  @Type(type = "text")
+  private String homePhone;
+
+  @Column(name = "mobile")
+  @Type(type = "text")
+  private String mobilePhone;
+
+  @Column (name = "work")
+  @Type(type = "text")
+  private String workPhone;
+
+  transient private String allEmails; //l7_m3 Transient (drugoui variant napisaniq), 4tobi pole ne izvlekaetsq iz bd.
+
+
+  @Expose
+  @Column(name = "photo")
+  @Type(type = "text")
+  private String photoFileName;
 
   public String getPhotoFileName() {
     return photoFileName;
@@ -36,10 +62,6 @@ public class ContactData {
 
   public ContactData withPhotoFileName(String photoFileName) {
     this.photoFileName = photoFileName;
-    return this;
-  }
-  public ContactData withPhoto(File photo) {
-    this.photo = photo;
     return this;
   }
 

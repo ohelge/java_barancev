@@ -1,6 +1,8 @@
 package ru.stqa.ol.addressbook.tests;
 
 import org.testng.annotations.Test;
+import ru.stqa.ol.addressbook.model.ContactData;
+import ru.stqa.ol.addressbook.model.Contacts;
 import ru.stqa.ol.addressbook.model.GroupData;
 import ru.stqa.ol.addressbook.model.Groups;
 
@@ -29,10 +31,22 @@ public class DbConnecionTest { //l7_m1 new Class. Ne nado nasledovat' TestBase t
                 .withFooter(resultSet.getString("group_footer")));
       }
       resultSet.close(); // nado zakrit'
-      st.close();
-      conn.close();
+      //st.close();
+      // conn.close();
 
       System.out.println(groups);
+
+      ResultSet resultSetContact = st.executeQuery("select id, firstname from  addressbook where deprecated = '0000-00-00'"); //l7_m1 ResultSet eto analog kollekcii, nabor strok kot izvlekautsq iz tablici
+      Contacts contacts = new Contacts();
+      while (resultSetContact.next()) { //poka est' elementi v resultSet
+        contacts.add(new ContactData().withId(resultSetContact.getInt("id")) //l7_m1 sm video na 09:57. resultSet ukazivaet na stroku v kajdii moment vremeni , a v celom eto vsq tabliza
+                .withFirstname(resultSetContact.getString("firstname")));
+
+      }
+      resultSetContact.close(); // nado zakrit'
+      st.close();
+      System.out.println(contacts);
+      conn.close();
 
     } catch (SQLException ex) {
       // handle any errors

@@ -16,3 +16,4 @@ gradle-app.setting
 *.json
 addressbook-web-tests/src/test/resources/groups.csv
 *.xml
+*.iml
