@@ -2,7 +2,9 @@ package ru.stqa.ol.addressbook.model;
 
 import com.google.common.collect.ForwardingSet;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,6 +20,8 @@ public class Groups extends ForwardingSet<GroupData> { //google Guava project ht
   public Groups() {
     this.delegate = new HashSet<GroupData>();
   }
+
+  public Groups(Collection<GroupData> groups) { this.delegate = new HashSet<GroupData>(groups); } //l7_m4 konstruktor dlq DbHelper. Stroim HashSet, to est' mnozhestvo objektov tipa GroupData
 
   @Override
   protected Set<GroupData> delegate() {

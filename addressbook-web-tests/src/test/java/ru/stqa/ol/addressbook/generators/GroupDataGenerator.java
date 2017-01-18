@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by A546902 on 2016-12-27.
  */
-public class GroupDataGenerator {
+public class GroupDataGenerator { //v Program argumrnts piwem tipa: -c 10 -d json -f addressbook-web-tests/src/test/resources/groups.json
   @Parameter(names = "-c", description = "Group count")
   //l6_m3 Jcommander biblioteka iz Maven. Dobavlqem -c, -f v Configuration klassa
   public int count;

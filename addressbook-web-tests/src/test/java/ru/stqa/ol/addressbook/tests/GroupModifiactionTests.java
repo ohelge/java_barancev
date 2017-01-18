@@ -13,31 +13,30 @@ public class GroupModifiactionTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
+    if (app.db().groups().size() == 0) { //l7_m4 novaq proverka s ispol'z db v obhod web-interfejsa
     app.goTo().groupPage();
-    if (!app.group().isThereAGroup()) {  // ili if (app.group().list().size() == 0)
-      app.group().create(new GroupData().withName("Group2") );
-      try {
-        Thread.sleep(2000);
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
+    // l7_m4 Ybiraem proverku: if (!app.group().isThereAGroup()) {  // ili if (app.group().list().size() == 0)
+      app.group().create(new GroupData().withName("Group2"));
+
     }
   }
 
   @Test
   public void testGroupModification() {
     app.goTo().groupPage();
-    Groups before = app.group().all();
-    GroupData modifiedGroup = before.iterator().next(); //l5_m5: vozvrawaem pervii popavwiisq element mnojestva
+    //l7_m4 Menqem Groups before = app.group().all(); Spisok grupp iz bd:
+    Groups before = app.db().groups();
+            GroupData modifiedGroup = before.iterator().next(); //l5_m5: vozvrawaem pervii popavwiisq element mnojestva
     GroupData group = new GroupData()
             .withId(modifiedGroup.getId())  //Vstavili id v GroupData. OBS! Sohranqem starii id u izmenennoi gruppi ina4e test padaet
             .withName("Group2")
             .withHeader("Group2 header")
             .withFooter("Group2 footer");
-    app.group().modify(group);
+    app.group().modify(group);//l7_m4 Eto osnovnoe dejstvie testa.Vse ostal'noe delaem max bistrim sposobom.Delaem novii klass DbHelper
 
-    assertEquals(app.group().count(), before.size());
-    Groups after = app.group().all();
+    assertEquals(app.group().count(), before.size());//l7_m4 mojno ubrat' dlq bistroti, no ostavim dlq proverki iz web-interfejsa
+    //l7_m4 Menqem Groups after = app.group().all(); na
+    Groups after = app.db().groups(); //Test vipolnqetsq zna4itel'no bistree
 
 
     assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));

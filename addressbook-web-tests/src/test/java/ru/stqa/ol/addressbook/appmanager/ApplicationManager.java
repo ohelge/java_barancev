@@ -24,7 +24,7 @@ public class ApplicationManager {
   private GroupHelper groupHelper;
   private SessionHelper sessionHelper;
   private String browser;
-  private LoginData loginData;
+  private DbHelper dbHelper; //l7_m4 sozdaem pole
 
   public ApplicationManager(String browser) throws IOException {
     this.browser = browser;
@@ -39,6 +39,8 @@ public class ApplicationManager {
 
     String target = System.getProperty("target", "local");//l6_m10 "local" -defoltnoe zna4enie dlq sistemnogo svoistva target (sm. build.gragle)
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target)))); //l6_m10 zagruzhaem properties s reader. target podstavlqetsq vmesto %s
+
+    dbHelper = new DbHelper();//l7_m4 inizializiruem objekt iz novogo klassa. Sm DbHelper
 
     if (browser.equals (BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
@@ -56,7 +58,8 @@ public class ApplicationManager {
     sessionHelper = new SessionHelper(wd);
     //sessionHelper.login(new LoginData("admin", "secret"));
     sessionHelper.login(new LoginData(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"))); //l6_m10 Parametrizuem login/pass sm. file local.properties
-  }
+
+      }
 
   public void stop() {
     wd.quit();
@@ -72,5 +75,9 @@ public class ApplicationManager {
 
   public SessionHelper goTo() {
     return sessionHelper;
+  }
+
+  public DbHelper db() { //l7_m4 sozdaem metod kot vozvrawaet etogo pomownika
+    return dbHelper;
   }
 }
