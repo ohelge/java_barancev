@@ -37,7 +37,7 @@ public class DbHelper {
   public Contacts contacts() {
     Session session = sessionFactory.openSession();//l7_m2 s.Example 6 " Obtaining a list of entities" iz http://docs.jboss.org/hibernate/orm/5.2/quickstart/html_single/#hibernate-gsg-tutorial-basic-test
     session.beginTransaction();
-    List<ContactData> result = session.createQuery("from GroupData").list();//l7_m3 menqem zapros na ContactData)!Vozvrawaetsq spisok obektov tipa ContactData
+    List<ContactData> result = session.createQuery("from ContactData where deprecated = '0000-00-00' ").list();//l7_m3 menqem zapros na ContactData)!Vozvrawaetsq spisok obektov tipa ContactData
     session.getTransaction().commit();
     session.close();
     return new Contacts(result); //l7_m4 Alt+Enter->create constructor. Sm. klass Contacts
