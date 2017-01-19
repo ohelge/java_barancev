@@ -67,12 +67,13 @@ public class GroupCreationTests extends TestBase {
     // logger.info("Start test testGroupCreation"); //l6_m11: piwem v na4alo i konec. Sozdaem fail logback.xml s takim imenem kak prinqto v Logback biblioteke.
     //l6_m11 4tobi ne zasorqt' testi mozhno napisat' v TestBase @BeforeMethod i @AfterMethod
     app.goTo().groupPage();
-    Groups before = app.group().all(); //l5_m6
+    //Groups before = app.group().all(); //l5_m6
+    Groups before = app.db().groups();
     app.group().create(group);
 
     assertThat(app.group().count(), equalTo(before.size() + 1)); //l5_m8 : zamenqem after.size() na bolee bistruu proverku app.group().count() i stavim pered zagruzkoi spiska grupp. Eto i est' hashirovanie
-    Groups after = app.group().all();
-
+    //Groups after = app.group().all();
+    Groups after = app.db().groups();
     group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());   //l5_m5: prewvawaem potok objektov GrouData v potok Identifikatorov. Anonimnaq funkciq mapToInt g: parametr gruppa, a resultat - identifikator. Berem max i preobrazuem v int
     assertThat(after, equalTo(before.withAdded(group))); // MatcherAssert.assertThat(..) Alt+Enter -> "Add static import"
     // logger.info("Stop test testGroupCreation"); l6_m11 Perenosim v TestBase

@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.stqa.ol.addressbook.model.ContactData;
+import ru.stqa.ol.addressbook.model.Contacts;
 import ru.stqa.ol.addressbook.model.GroupData;
 import ru.stqa.ol.addressbook.model.Groups;
 
@@ -32,6 +33,14 @@ public class DbHelper {
     session.getTransaction().commit();
     session.close();
     return new Groups(result); //l7_m4 Alt+Enter->create constructor. Sm. klass Groups
+  }
+  public Contacts contacts() {
+    Session session = sessionFactory.openSession();//l7_m2 s.Example 6 " Obtaining a list of entities" iz http://docs.jboss.org/hibernate/orm/5.2/quickstart/html_single/#hibernate-gsg-tutorial-basic-test
+    session.beginTransaction();
+    List<ContactData> result = session.createQuery("from GroupData").list();//l7_m3 menqem zapros na ContactData)!Vozvrawaetsq spisok obektov tipa ContactData
+    session.getTransaction().commit();
+    session.close();
+    return new Contacts(result); //l7_m4 Alt+Enter->create constructor. Sm. klass Contacts
   }
 
 }
