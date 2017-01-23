@@ -37,9 +37,9 @@ public class GroupModifiactionTests extends TestBase {
     assertEquals(app.group().count(), before.size());//l7_m4 mojno ubrat' dlq bistroti, no ostavim dlq proverki iz web-interfejsa
     //l7_m4 Menqem Groups after = app.group().all(); na
     Groups after = app.db().groups(); //Test vipolnqetsq zna4itel'no bistree
-
-
     assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));
+
+    verifyGroupListInUI(); //l7_m5 novii metod dla proverki grupp iz web interfejsa. Alt+Enter, delaem metod public i perenosim v TestBase
 
   }
 
