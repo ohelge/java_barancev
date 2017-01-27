@@ -5,10 +5,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("group") //l6_m6 Annotaciq dlq xml tag group
 @Entity //l7_m2 dlq zapuska HbConnectionTest nado sopostavi' klass i imq tablici
@@ -24,29 +23,6 @@ public class GroupData {
   @Column(name = "group_name") //l7_m2 imq privqzivaetsq k stolbcu "group_name"
   private String groupname;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    GroupData groupData = (GroupData) o;
-
-    if (id != groupData.id) return false;
-    if (groupname != null ? !groupname.equals(groupData.groupname) : groupData.groupname != null) return false;
-    if (groupheader != null ? !groupheader.equals(groupData.groupheader) : groupData.groupheader != null) return false;
-    return groupfooter != null ? groupfooter.equals(groupData.groupfooter) : groupData.groupfooter == null;
-
-  }
-
-  @Override
-  public int hashCode() {
-    int result = id;
-    result = 31 * result + (groupname != null ? groupname.hashCode() : 0);
-    result = 31 * result + (groupheader != null ? groupheader.hashCode() : 0);
-    result = 31 * result + (groupfooter != null ? groupfooter.hashCode() : 0);
-    return result;
-  }
-
   @Expose
   @Column (name = "group_header") //l7_m2 analogi4no s header,footer
   @Type(type = "text") //bez etoj annotacii test HbConnectionTest padaet iz-za nesovpadeniq tipov
@@ -56,6 +32,14 @@ public class GroupData {
   @Column (name = "group_footer") //l7_m2 analogi4no s header,footer
   @Type(type = "text") //bez etoj annotacii test HbConnectionTest padaet iz-za nesovpadeniq tipov
   private String groupfooter;
+
+  @ManyToMany(mappedBy = "groups") //l7_m6 Sna4ala delaem v ContactData potom zdes'. Zdes' ManyToMany opisivat' ne nado, a mozhno ukazat' mappedBy-
+  //Eto ozna4aet, 4to v parnom klasse nado najti svojstvo/atribut "groups" (private Set<GroupData> groups = new HashSet<GroupData>();) i ottuda vzqt' vse opisanie @JoinTable
+  private Set<ContactData> contacts = new HashSet<ContactData>(); // Nuzhno sozdat' Getter i izmenqem ego kak v ContactData:
+
+  public Contacts getContacts() {
+    return new Contacts(contacts);
+  }
 
   public int getId() {
     return id;
@@ -102,4 +86,26 @@ public class GroupData {
             '}';
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    GroupData groupData = (GroupData) o;
+
+    if (id != groupData.id) return false;
+    if (groupname != null ? !groupname.equals(groupData.groupname) : groupData.groupname != null) return false;
+    if (groupheader != null ? !groupheader.equals(groupData.groupheader) : groupData.groupheader != null) return false;
+    return groupfooter != null ? groupfooter.equals(groupData.groupfooter) : groupData.groupfooter == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id;
+    result = 31 * result + (groupname != null ? groupname.hashCode() : 0);
+    result = 31 * result + (groupheader != null ? groupheader.hashCode() : 0);
+    result = 31 * result + (groupfooter != null ? groupfooter.hashCode() : 0);
+    return result;
+  }
 }

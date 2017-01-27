@@ -5,6 +5,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity //l7_m2 dlq zapuska HbConnectionTest nado sopostavi' klass i imq tablici
 @Table(name = "addressbook")
@@ -50,11 +52,22 @@ public class ContactData {
 
   transient private String allEmails; //l7_m3 Transient (drugoui variant napisaniq), 4tobi pole ne izvlekaetsq iz bd.
 
-
   @Expose
   @Column(name = "photo")
   @Type(type = "text")
   private String photoFileName;
+
+  //@ManyToMany //l7_m6 Hibernate annotaciq Many2Many http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#associations-many-to-many
+  @ManyToMany (fetch = FetchType.EAGER) //l7_m6 delaem Zhadni (EAGER). Po umoll4aniu opciq = .LAZY (iz bd izvlekaetsq kak mozhno men'we iformacii)
+  @JoinTable (name = "address_in_groups",
+          joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id")) //l7_m6 Zaglqdivaem v bd, smotrim kak svqzivautsq adresa i gruppi: tablica address_in_groups.
+  // Stolbec v joinColumns ukaz na stolbec tekuwego klassa t.e. na kontakti, t.e. stolbec "id"
+  //inverseJoinColumn eto obratynii stolbec, tot kot ukazivaet na gruppu. Dalee sm GroupData
+  private Set<GroupData> groups = new HashSet<GroupData>(); //nado inicializirovat': = new .. Delaem Generate-Getter.
+
+  public Groups getGroups() { //l7_m6 menqem Set na Groups. Vozvrawaem Groups
+    return new Groups (groups);
+  }
 
   public String getPhotoFileName() {
     return photoFileName;

@@ -43,10 +43,13 @@ public class HibernateConnecionTest { //l7_m1 new Class. Ne nado nasledovat' Tes
       System.out.println( group );
     }*/
     List<ContactData> resultContact = session.createQuery( "from ContactData where deprecated = '0000-00-00'" ).list();//l7_m3 menqem zapros na ContactData)!Vozvrawaetsq spisok obektov tipa ContactData
-    for ( ContactData contact : resultContact ) { //l7_m2 OBS vmesto "Event" iz primera budet GroupData. Idem v GroupData i dobavlqem annotaciu @Entity..
-      System.out.println( contact ); //l7_m3 OBS!v baze mozhet bit' nogo kontaktov a v webe men'we: v webe vidni kontakti u kogo pole "depricated" = "0000-00-00 00:00:00" data udaleniq. Sm viwe.
-    }
+
     session.getTransaction().commit();
     session.close();
+    //l7_m6 perenosim etot "for" za zakritie transakcii i togda test padaet poka ne napiwem opciu v @ManyToMany (fetch = FetchType.EAGER) sm. ContactData
+    for ( ContactData contact : resultContact ) { //l7_m2 OBS vmesto "Event" iz primera budet GroupData. Idem v GroupData i dobavlqem annotaciu @Entity..
+      System.out.println( contact ); //l7_m3 OBS!v baze mozhet bit' nogo kontaktov a v webe men'we: v webe vidni kontakti u kogo pole "depricated" = "0000-00-00 00:00:00" data udaleniq. Sm viwe.
+      System.out.println(contact.getGroups()); //l7_m6 Budem vivodit' info o gruppe kontakta (posle dobavleniq atributov v GroupData i ContactData)
+    }
   }
 }
